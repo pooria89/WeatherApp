@@ -24,6 +24,7 @@ class MainActivity : AppCompatActivity() {
         setContentView(binding.root)
         viewModel.getWeather()
         observer()
+
     }
 
     private fun observer() = binding.apply {

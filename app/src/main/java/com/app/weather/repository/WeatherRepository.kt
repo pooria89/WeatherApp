@@ -4,7 +4,14 @@ import com.app.weather.api.ApiService
 import javax.inject.Inject
 
 class WeatherRepository @Inject constructor(
-    private val apiService: ApiService) {
+    private val apiService: ApiService
+) {
 
-    suspend fun getWeather() = apiService.getWeather()
+    suspend fun currentWeather(
+        lat: String,
+        lon: String
+    ) = apiService.currentWeather(
+        lat = lat,
+        lon = lon
+    )
 }

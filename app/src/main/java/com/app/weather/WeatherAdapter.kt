@@ -5,11 +5,12 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import com.app.common.BaseRecyclerViewAdapter
 import com.app.weather.databinding.RecyclerItemBinding
-import com.app.weather.model.Forecast
+import com.app.weather.model.CurrentWeather
+import com.app.weather.model.Weather
 
 class WeatherAdapter(
-    private val listener: ((Forecast) -> Unit)
-) : BaseRecyclerViewAdapter<Forecast, WeatherAdapter.VH>(COMPARATOR) {
+    private val listener: ((Weather) -> Unit)
+) : BaseRecyclerViewAdapter<Weather, WeatherAdapter.VH>(COMPARATOR) {
 
     override fun getViewHolder(parent: ViewGroup, viewType: Int) =
         VH(RecyclerItemBinding.inflate(LayoutInflater.from(parent.context)))
@@ -18,25 +19,25 @@ class WeatherAdapter(
         private val binding: RecyclerItemBinding
     ) : BaseViewHolder(binding.root) {
 
-        override fun bind(item: Forecast) {
+        override fun bind(item: Weather) {
             binding.apply {
-                txtTemperature.text = item.temperature
-                txtWind.text = item.wind
-                txtDay.text = item.day
+//                txtTemperature.text = item.main
+//                txtWind.text = item.name
+//                txtDay.text = item.name
             }
         }
     }
 
     companion object {
-        private val COMPARATOR = object : DiffUtil.ItemCallback<Forecast>() {
+        private val COMPARATOR = object : DiffUtil.ItemCallback<Weather>() {
             override fun areItemsTheSame(
-                oldItem: Forecast,
-                newItem: Forecast
-            ) = oldItem.day == newItem.day
+                oldItem: Weather,
+                newItem: Weather
+            ) = oldItem.id == newItem.id
 
             override fun areContentsTheSame(
-                oldItem: Forecast,
-                newItem: Forecast
+                oldItem: Weather,
+                newItem: Weather
             ) = oldItem == newItem
         }
     }

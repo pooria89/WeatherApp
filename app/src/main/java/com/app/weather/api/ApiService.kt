@@ -16,6 +16,18 @@ interface ApiService {
         @Query("lat") lat: String,
         @Query("lon") lon: String,
         @Query("units") units: String="metric",
+        @Query("lang") lang: String="fa",
+    ): Response<CurrentWeather>
+
+    @Headers("Accept: application/json")
+    @GET("weather")
+    suspend fun forecastWeather(
+        @Query("apikey") apikey: String = Constants.API_KEY,
+        @Query("lat") lat: String,
+        @Query("lon") lon: String,
+        @Query("lang") lang: String="fa",
+        @Query("cnt") cnt: Int = 16,
+        @Query("units") units: String="metric",
     ): Response<CurrentWeather>
 
 }

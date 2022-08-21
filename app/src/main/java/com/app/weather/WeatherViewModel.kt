@@ -42,29 +42,29 @@ class WeatherViewModel @Inject constructor(
     }
 
 
-    private val _forecastWeather = MutableLiveData<Resource<CurrentWeather>>(Resource.Initialize)
-    val forecastWeatherResponse: LiveData<Resource<CurrentWeather>> = _forecastWeather
-
-    fun currentWeather(
-        lat: String,
-        lon: String
-    ) = viewModelScope.launch {
-        _forecastWeather.postValue(Resource.Loading)
-        try {
-            val response = repository.currentWeather(lat = lat, lon = lon)
-            Log.d("tag", "getWeather Error: $response")
-
-            if (response.isSuccessful) {
-                _forecastWeather.postValue(Resource.Success(response.body()!!))
-            } else {
-                _forecastWeather.postValue(Resource.Failure("Api Failed"))
-            }
-        } catch (e: Exception) {
-            _forecastWeather.postValue(Resource.Failure(e.message.toString()))
-            Log.d("tag", "getWeather Error: ${e.message}")
-        }
-
-    }
+//    private val _forecastWeather = MutableLiveData<Resource<CurrentWeather>>(Resource.Initialize)
+//    val forecastWeatherResponse: LiveData<Resource<CurrentWeather>> = _forecastWeather
+//
+//    fun currentWeather(
+//        lat: String,
+//        lon: String
+//    ) = viewModelScope.launch {
+//        _forecastWeather.postValue(Resource.Loading)
+//        try {
+//            val response = repository.currentWeather(lat = lat, lon = lon)
+//            Log.d("tag", "getWeather Error: $response")
+//
+//            if (response.isSuccessful) {
+//                _forecastWeather.postValue(Resource.Success(response.body()!!))
+//            } else {
+//                _forecastWeather.postValue(Resource.Failure("Api Failed"))
+//            }
+//        } catch (e: Exception) {
+//            _forecastWeather.postValue(Resource.Failure(e.message.toString()))
+//            Log.d("tag", "getWeather Error: ${e.message}")
+//        }
+//
+//    }
 
 
 }

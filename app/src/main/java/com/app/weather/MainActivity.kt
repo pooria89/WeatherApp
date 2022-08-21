@@ -5,8 +5,6 @@ import android.annotation.SuppressLint
 import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
-import android.location.Address
-import android.location.Geocoder
 import android.location.Location
 import android.location.LocationManager
 import android.os.Bundle
@@ -24,13 +22,14 @@ import com.app.weather.utils.ext.hide
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationServices
 import dagger.hilt.android.AndroidEntryPoint
-import java.util.*
 
 
 @AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
 
     private val permissionId: Int = 100
+    private var lat: Double = 100.0
+    private var lng: Double = 100.0
     private lateinit var binding: ActivityMainBinding
     private val viewModel: WeatherViewModel by viewModels()
     private lateinit var adapter: WeatherAdapter
@@ -43,7 +42,6 @@ class MainActivity : AppCompatActivity() {
         setContentView(binding.root)
         mFusedLocationClient = LocationServices.getFusedLocationProviderClient(this)
         getLocation()
-        viewModel.currentWeather(lat = "", lon = "51.399406")
         observer()
     }
 
@@ -81,19 +79,6 @@ class MainActivity : AppCompatActivity() {
         )
     }
 
-    @SuppressLint("MissingSuperCall")
-    override fun onRequestPermissionsResult(
-        requestCode: Int,
-        permissions: Array<String>,
-        grantResults: IntArray
-    ) {
-        if (requestCode == permissionId) {
-            if ((grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED)) {
-                getLocation()
-            }
-        }
-    }
-
     @SuppressLint("MissingPermission", "SetTextI18n")
     private fun getLocation() {
         if (checkPermissions()) {
@@ -101,18 +86,17 @@ class MainActivity : AppCompatActivity() {
                 mFusedLocationClient.lastLocation.addOnCompleteListener(this) { task ->
                     val location: Location? = task.result
                     if (location != null) {
-                        val geocoder = Geocoder(this, Locale.getDefault())
-                        val list: List<Address> =
-                            geocoder.getFromLocation(location.latitude, location.longitude, 1)
                         Log.e("gpssss", "Latitude\n ${location.latitude}")
                         Log.e("gpssss", "Longitude\n${location.longitude}")
-//                        Log.e("gpssss", "Country Name\n${list[0].countryName}")
-//                        Log.e("gpssss", "Locality\n${list[0].locality}")
-//                        Log.e("gpssss", "Address\n${list[0].getAddressLine(0)}")
+                        viewModel.currentWeather(
+                            lat = location.latitude.toString(),
+                            lon = location.longitude.toString()
+                        )
+
                     }
                 }
             } else {
-                Toast.makeText(this, "Please turn on location", Toast.LENGTH_LONG).show()
+                Toast.makeText(this, "لطفا موقعیت مکانی خود را فعال کنید", Toast.LENGTH_LONG).show()
                 val intent = Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS)
                 startActivity(intent)
             }
@@ -160,6 +144,19 @@ class MainActivity : AppCompatActivity() {
 
     private fun hideProgress() {
         binding.loading.root.hide()
+    }
+
+    @SuppressLint("MissingSuperCall")
+    override fun onRequestPermissionsResult(
+        requestCode: Int,
+        permissions: Array<String>,
+        grantResults: IntArray
+    ) {
+        if (requestCode == permissionId) {
+            if ((grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED)) {
+                getLocation()
+            }
+        }
     }
 
 }

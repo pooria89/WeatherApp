@@ -19,12 +19,18 @@
             android:orientation="horizontal"
             android:padding="10dp">
 
-            <ImageView
+
+            <com.airbnb.lottie.LottieAnimationView
                 android:id="@+id/img_item_list"
                 android:layout_width="100dp"
                 android:layout_height="100dp"
                 android:layout_marginEnd="16dp"
-                android:src="@drawable/ic_weather" />
+                android:layout_weight="1.5"
+                app:lottie_autoPlay="true"
+                app:lottie_fileName="weather_storm.json"
+                app:lottie_loop="true"
+                app:lottie_speed="1" />
+
 
             <androidx.appcompat.widget.LinearLayoutCompat
                 android:layout_width="0dp"
@@ -54,7 +60,7 @@
                     android:textSize="14sp" />
 
                 <androidx.appcompat.widget.AppCompatTextView
-                    android:id="@+id/txt_day"
+                    android:id="@+id/txt_desc_more"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:gravity="center|left"

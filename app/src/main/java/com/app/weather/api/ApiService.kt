@@ -26,6 +26,8 @@ interface ApiService {
         @Query("apikey") apikey: String = Constants.API_KEY,
         @Query("lat") lat: String,
         @Query("lon") lon: String,
+        @Query("units") units: String = "metric",
+        @Query("lang") lang: String = "fa",
     ): Response<Forecast>
 
 }

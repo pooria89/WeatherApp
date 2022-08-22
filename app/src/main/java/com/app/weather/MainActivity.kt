@@ -129,22 +129,14 @@ class MainActivity : AppCompatActivity() {
                 is Resource.Success -> {
                     Log.d("forecastWeather", forecastWeather.toString())
                     hideProgress()
-//                    setupRecyclerView(rvWeather)
-//                    txtDescription.text = currentWeather.data.weather?.firstOrNull()?.main
-//                    txtCity.text = currentWeather.data.name
-//                    txtTemp.text = currentWeather.data.main?.temp?.toInt().toString() + " °C"
-//                    txtMinTemp.text = currentWeather.data.main?.tempMin?.toInt().toString() + " °C"
-//                    txtMaxTemp.text = currentWeather.data.main?.tempMax?.toInt().toString() + " °C"
-//                    txtTemp.text = currentWeather.data
-//                    adapter.submitList(currentWeather.data.weather)
+                    setupRecyclerView(rvWeather)
+                    adapter.submitList(forecastWeather.data.list)
                 }
                 is Resource.Failure -> {
                     hideProgress()
                 }
             }
-
         }
-
     }
 
     private fun setupRecyclerView(recyclerView: RecyclerView) {

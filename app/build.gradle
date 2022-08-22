@@ -74,6 +74,9 @@ dependencies {
     // lottie
     implementation "com.airbnb.android:lottie:5.2.0"
 
+    // Persian Date
+    implementation 'com.github.samanzamani:PersianDate:1.5.4'
+
     // Local Unit Tests
     testImplementation "junit:junit:4.13.2"
     testImplementation "androidx.test:core:1.4.0"

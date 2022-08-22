@@ -7,6 +7,7 @@ import com.app.common.BaseRecyclerViewAdapter
 import com.app.weather.databinding.RecyclerItemBinding
 import com.app.weather.model.current.WeatherType
 import com.app.weather.model.forecast.ListItem
+import com.app.weather.utils.ext.toPersianDateTime
 
 class WeatherAdapter(
     private val listener: ((ListItem) -> Unit)
@@ -21,11 +22,11 @@ class WeatherAdapter(
 
         override fun bind(item: ListItem) {
             binding.apply {
-//                val animationView: LottieAnimationView? = binding.t
                 txtTemperature.text = item.main?.temp.toString()
                 txtDescription.text = item.weather?.firstOrNull()?.description
                 txtWind.text = item.wind?.speed.toString()
-                txtTime.text = item.sys?.dt_txt
+                txtTime.text = item.dtTxt?.toPersianDateTime()
+
                 when (item.weather?.firstOrNull()?.main) {
                     WeatherType.WEATHER_SUNNY  -> {
                         imgItemList.setAnimation("weather_sunny.json")

@@ -22,10 +22,10 @@
 
             <com.airbnb.lottie.LottieAnimationView
                 android:id="@+id/img_item_list"
-                android:layout_width="100dp"
-                android:layout_height="100dp"
+                android:layout_width="80dp"
+                android:layout_height="80dp"
                 android:layout_marginEnd="16dp"
-                android:layout_weight="1.5"
+                android:layout_weight="1"
                 app:lottie_autoPlay="true"
                 app:lottie_loop="true"
                 app:lottie_speed="1.5" />
@@ -34,7 +34,8 @@
             <androidx.appcompat.widget.LinearLayoutCompat
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
+                android:layout_gravity="center"
+                android:layout_weight="2.5"
                 android:gravity="center"
                 android:orientation="vertical">
 
@@ -42,8 +43,8 @@
                     android:id="@+id/txt_temperature"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginBottom="7dp"
-                    android:gravity="center|left"
+                    android:layout_marginBottom="3dp"
+                    android:gravity="center"
                     android:text="25 °C"
                     android:textColor="@color/black"
                     android:textSize="23sp"
@@ -53,7 +54,8 @@
                     android:id="@+id/txtDescription"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:gravity="center|left"
+                    android:layout_marginBottom="4dp"
+                    android:gravity="center"
                     android:text="Clouds"
                     android:textColor="@color/black"
                     android:textSize="14sp" />
@@ -62,7 +64,7 @@
                     android:id="@+id/txt_time"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:gravity="center|left"
+                    android:gravity="center"
                     android:text="Sunday , july 21"
                     android:textSize="14sp" />
 
@@ -79,16 +81,16 @@
             <androidx.appcompat.widget.LinearLayoutCompat
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_weight=".75"
-                android:gravity="center"
                 android:layout_gravity="center"
+                android:layout_weight="1.75"
+                android:gravity="center"
                 android:orientation="vertical">
 
 
                 <androidx.appcompat.widget.AppCompatTextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:gravity="center|left"
+                    android:gravity="center"
                     android:text="سرعت وزش باد"
                     android:textColor="@color/black"
                     android:textSize="14sp" />
@@ -97,12 +99,12 @@
                     android:id="@+id/txt_wind"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:gravity="center|left"
                     android:layout_marginTop="5dp"
+                    android:gravity="center"
                     android:text="27 km/h"
-                    android:textStyle="bold"
                     android:textColor="@color/black"
-                    android:textSize="22sp" />
+                    android:textSize="23sp"
+                    android:textStyle="bold" />
 
             </androidx.appcompat.widget.LinearLayoutCompat>
 

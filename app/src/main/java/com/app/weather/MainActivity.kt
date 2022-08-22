@@ -2,11 +2,9 @@ package com.app.weather
 
 import android.Manifest
 import android.annotation.SuppressLint
-import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.location.Location
-import android.location.LocationManager
 import android.os.Bundle
 import android.provider.Settings
 import android.util.Log
@@ -28,13 +26,11 @@ import dagger.hilt.android.AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
 
     private val permissionId: Int = 100
-    private var lat: Double = 100.0
-    private var lng: Double = 100.0
+    private lateinit var adapter: WeatherAdapter
     private lateinit var binding: ActivityMainBinding
     private val viewModel: WeatherViewModel by viewModels()
-    private lateinit var adapter: WeatherAdapter
-
     private lateinit var mFusedLocationClient: FusedLocationProviderClient
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -43,14 +39,6 @@ class MainActivity : AppCompatActivity() {
         mFusedLocationClient = LocationServices.getFusedLocationProviderClient(this)
         getLocation()
         observer()
-    }
-
-    private fun isLocationEnabled(): Boolean {
-        val locationManager: LocationManager =
-            getSystemService(Context.LOCATION_SERVICE) as LocationManager
-        return locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER) || locationManager.isProviderEnabled(
-            LocationManager.NETWORK_PROVIDER
-        )
     }
 
     private fun checkPermissions(): Boolean {
@@ -82,7 +70,7 @@ class MainActivity : AppCompatActivity() {
     @SuppressLint("MissingPermission", "SetTextI18n")
     private fun getLocation() {
         if (checkPermissions()) {
-            if (isLocationEnabled()) {
+            if (viewModel.isLocationEnabled(this)) {
                 mFusedLocationClient.lastLocation.addOnCompleteListener(this) { task ->
                     val location: Location? = task.result
                     if (location != null) {
@@ -105,7 +93,6 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-
     private fun observer() = binding.apply {
 
         viewModel.currentWeatherResponse.observe(this@MainActivity) { currentWeather ->
@@ -113,6 +100,10 @@ class MainActivity : AppCompatActivity() {
             when (currentWeather) {
                 is Resource.Loading -> showProgress()
                 is Resource.Success -> {
+                    viewModel.forecastWeather(
+                        lat = currentWeather.data.coord?.lat.toString(),
+                        lon = currentWeather.data.coord?.lon.toString()
+                    )
                     Log.d("currentWeather", currentWeather.toString())
                     hideProgress()
                     setupRecyclerView(rvWeather)
@@ -121,6 +112,29 @@ class MainActivity : AppCompatActivity() {
                     txtTemp.text = currentWeather.data.main?.temp?.toInt().toString() + " °C"
                     txtMinTemp.text = currentWeather.data.main?.tempMin?.toInt().toString() + " °C"
                     txtMaxTemp.text = currentWeather.data.main?.tempMax?.toInt().toString() + " °C"
+//                    txtTemp.text = currentWeather.data
+//                    adapter.submitList(currentWeather.data.weather)
+                }
+                is Resource.Failure -> {
+                    hideProgress()
+                }
+            }
+
+        }
+
+        viewModel.forecastWeatherResponse.observe(this@MainActivity) { forecastWeather ->
+
+            when (forecastWeather) {
+                is Resource.Loading -> showProgress()
+                is Resource.Success -> {
+                    Log.d("forecastWeather", forecastWeather.toString())
+                    hideProgress()
+//                    setupRecyclerView(rvWeather)
+//                    txtDescription.text = currentWeather.data.weather?.firstOrNull()?.main
+//                    txtCity.text = currentWeather.data.name
+//                    txtTemp.text = currentWeather.data.main?.temp?.toInt().toString() + " °C"
+//                    txtMinTemp.text = currentWeather.data.main?.tempMin?.toInt().toString() + " °C"
+//                    txtMaxTemp.text = currentWeather.data.main?.tempMax?.toInt().toString() + " °C"
 //                    txtTemp.text = currentWeather.data
 //                    adapter.submitList(currentWeather.data.weather)
                 }

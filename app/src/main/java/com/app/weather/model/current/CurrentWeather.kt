@@ -1,7 +1,7 @@
-package com.app.weather.model
+package com.app.weather.model.current
 
+import com.app.weather.model.forecast.Main
 
-import com.google.gson.annotations.SerializedName
 
 data class CurrentWeather(
     val base: String?,

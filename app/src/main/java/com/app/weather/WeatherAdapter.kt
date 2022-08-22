@@ -5,8 +5,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import com.app.common.BaseRecyclerViewAdapter
 import com.app.weather.databinding.RecyclerItemBinding
-import com.app.weather.model.CurrentWeather
-import com.app.weather.model.Weather
+import com.app.weather.model.current.Weather
 
 class WeatherAdapter(
     private val listener: ((Weather) -> Unit)

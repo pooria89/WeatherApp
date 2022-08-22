@@ -1,11 +1,14 @@
 package com.app.weather
 
+import android.content.Context
+import android.location.LocationManager
 import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.app.weather.model.CurrentWeather
+import com.app.weather.model.current.CurrentWeather
+import com.app.weather.model.forecast.Forecast
 import com.app.weather.repository.WeatherRepository
 import com.app.weather.utils.Resource
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -20,6 +23,16 @@ class WeatherViewModel @Inject constructor(
     private val _currentWeather = MutableLiveData<Resource<CurrentWeather>>(Resource.Initialize)
     val currentWeatherResponse: LiveData<Resource<CurrentWeather>> = _currentWeather
 
+    private val _forecastWeather = MutableLiveData<Resource<Forecast>>(Resource.Initialize)
+    val forecastWeatherResponse: LiveData<Resource<Forecast>> = _forecastWeather
+
+
+    /**
+     * Current weather
+     *
+     * @param lat
+     * @param lon
+     */
     fun currentWeather(
         lat: String,
         lon: String
@@ -41,30 +54,40 @@ class WeatherViewModel @Inject constructor(
 
     }
 
+    fun forecastWeather(
+        lat: String,
+        lon: String
+    ) = viewModelScope.launch {
+        _forecastWeather.postValue(Resource.Loading)
+        try {
+            val response = repository.forecastWeather(lat = lat, lon = lon)
+            Log.d("tag", "forecastWeather Error: $response")
 
-//    private val _forecastWeather = MutableLiveData<Resource<CurrentWeather>>(Resource.Initialize)
-//    val forecastWeatherResponse: LiveData<Resource<CurrentWeather>> = _forecastWeather
-//
-//    fun currentWeather(
-//        lat: String,
-//        lon: String
-//    ) = viewModelScope.launch {
-//        _forecastWeather.postValue(Resource.Loading)
-//        try {
-//            val response = repository.currentWeather(lat = lat, lon = lon)
-//            Log.d("tag", "getWeather Error: $response")
-//
-//            if (response.isSuccessful) {
-//                _forecastWeather.postValue(Resource.Success(response.body()!!))
-//            } else {
-//                _forecastWeather.postValue(Resource.Failure("Api Failed"))
-//            }
-//        } catch (e: Exception) {
-//            _forecastWeather.postValue(Resource.Failure(e.message.toString()))
-//            Log.d("tag", "getWeather Error: ${e.message}")
-//        }
-//
-//    }
+            if (response.isSuccessful) {
+                _forecastWeather.postValue(Resource.Success(response.body()!!))
+            } else {
+                _forecastWeather.postValue(Resource.Failure("Api Failed"))
+            }
+        } catch (e: Exception) {
+            _forecastWeather.postValue(Resource.Failure(e.message.toString()))
+            Log.d("tag", "forecastWeather Error: ${e.message}")
+        }
+
+    }
+
+    /**
+     * Is location enabled
+     *
+     * @param context
+     * @return
+     */
+    fun isLocationEnabled(context: Context): Boolean {
+        val locationManager: LocationManager =
+            context.getSystemService(Context.LOCATION_SERVICE) as LocationManager
+        return locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER) || locationManager.isProviderEnabled(
+            LocationManager.NETWORK_PROVIDER
+        )
+    }
 
 
 }

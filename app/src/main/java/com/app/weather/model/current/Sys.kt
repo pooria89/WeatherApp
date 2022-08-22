@@ -1,7 +1,5 @@
-package com.app.weather.model
+package com.app.weather.model.current
 
-
-import com.google.gson.annotations.SerializedName
 
 data class Sys(
     val country: String?,

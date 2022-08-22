@@ -27,9 +27,8 @@
                 android:layout_marginEnd="16dp"
                 android:layout_weight="1.5"
                 app:lottie_autoPlay="true"
-                app:lottie_fileName="weather_storm.json"
                 app:lottie_loop="true"
-                app:lottie_speed="1" />
+                app:lottie_speed="1.5" />
 
 
             <androidx.appcompat.widget.LinearLayoutCompat
@@ -60,7 +59,7 @@
                     android:textSize="14sp" />
 
                 <androidx.appcompat.widget.AppCompatTextView
-                    android:id="@+id/txt_desc_more"
+                    android:id="@+id/txt_time"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:gravity="center|left"
@@ -80,8 +79,9 @@
             <androidx.appcompat.widget.LinearLayoutCompat
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_weight=".5"
+                android:layout_weight=".75"
                 android:gravity="center"
+                android:layout_gravity="center"
                 android:orientation="vertical">
 
 
@@ -89,7 +89,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:gravity="center|left"
-                    android:text="wind"
+                    android:text="سرعت وزش باد"
                     android:textColor="@color/black"
                     android:textSize="14sp" />
 
@@ -98,9 +98,11 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:gravity="center|left"
+                    android:layout_marginTop="5dp"
                     android:text="27 km/h"
+                    android:textStyle="bold"
                     android:textColor="@color/black"
-                    android:textSize="16sp" />
+                    android:textSize="22sp" />
 
             </androidx.appcompat.widget.LinearLayoutCompat>
 

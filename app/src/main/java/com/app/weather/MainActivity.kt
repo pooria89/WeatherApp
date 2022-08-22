@@ -14,6 +14,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.app.weather.databinding.ActivityMainBinding
+import com.app.weather.model.current.WeatherType
 import com.app.weather.utils.Resource
 import com.app.weather.utils.ext.fadeIn
 import com.app.weather.utils.ext.hide
@@ -57,6 +58,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun requestPermissions() {
+        Toast.makeText(this, "لطفا دسترسی لازم را بدهید", Toast.LENGTH_SHORT).show()
         ActivityCompat.requestPermissions(
             this,
             arrayOf(
@@ -107,13 +109,28 @@ class MainActivity : AppCompatActivity() {
                     Log.d("currentWeather", currentWeather.toString())
                     hideProgress()
                     setupRecyclerView(rvWeather)
-                    txtDescription.text = currentWeather.data.weather?.firstOrNull()?.main
+                    txtDescription.text = currentWeather.data.weather?.firstOrNull()?.description
                     txtCity.text = currentWeather.data.name
                     txtTemp.text = currentWeather.data.main?.temp?.toInt().toString() + " °C"
                     txtMinTemp.text = currentWeather.data.main?.tempMin?.toInt().toString() + " °C"
                     txtMaxTemp.text = currentWeather.data.main?.tempMax?.toInt().toString() + " °C"
-//                    txtTemp.text = currentWeather.data
-//                    adapter.submitList(currentWeather.data.weather)
+                    when (currentWeather.data.weather?.firstOrNull()?.main) {
+                        WeatherType.WEATHER_SUNNY  -> {
+                            animationWeather.setAnimation("weather_sunny.json")
+                        }
+                        WeatherType.WEATHER_CLOUDY -> {
+                            animationWeather.setAnimation("weather_cloudy.json")
+                        }
+                        WeatherType.WEATHER_RAINY  -> {
+                            animationWeather.setAnimation("weather_rainy.json")
+                        }
+                        WeatherType.WEATHER_CLEAR  -> {
+                            animationWeather.setAnimation("weather_clear.json")
+                        }
+                        WeatherType.WEATHER_SNOW   -> {
+                            animationWeather.setAnimation("weather_snow.json")
+                        }
+                    }
                 }
                 is Resource.Failure -> {
                     hideProgress()
@@ -137,6 +154,11 @@ class MainActivity : AppCompatActivity() {
                 }
             }
         }
+    }
+
+    override fun onResume() {
+        super.onResume()
+//        getLocation()
     }
 
     private fun setupRecyclerView(recyclerView: RecyclerView) {

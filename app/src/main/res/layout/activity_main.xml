@@ -33,9 +33,8 @@
                 android:layout_height="0dp"
                 android:layout_weight="1.5"
                 app:lottie_autoPlay="true"
-                app:lottie_fileName="weather_storm.json"
                 app:lottie_loop="true"
-                app:lottie_speed="1" />
+                app:lottie_speed="1.5" />
 
             <View
                 android:layout_width="250dp"

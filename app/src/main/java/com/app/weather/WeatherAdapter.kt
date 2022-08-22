@@ -3,7 +3,6 @@ package com.app.weather
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
-import com.airbnb.lottie.LottieAnimationView
 import com.app.common.BaseRecyclerViewAdapter
 import com.app.weather.databinding.RecyclerItemBinding
 import com.app.weather.model.current.WeatherType
@@ -22,16 +21,27 @@ class WeatherAdapter(
 
         override fun bind(item: ListItem) {
             binding.apply {
+//                val animationView: LottieAnimationView? = binding.t
                 txtTemperature.text = item.main?.temp.toString()
-                txtDescription.text = item.weather?.firstOrNull()?.main
+                txtDescription.text = item.weather?.firstOrNull()?.description
                 txtWind.text = item.wind?.speed.toString()
-                txtDescMore.text = item.weather?.firstOrNull()?.description.toString()
+                txtTime.text = item.sys?.dt_txt
                 when (item.weather?.firstOrNull()?.main) {
-                    WeatherType.WEATHER_SUNNY  -> {imgItemList.playAnimation()}
-                    WeatherType.WEATHER_CLOUDY -> {}
-                    WeatherType.WEATHER_RAINY  -> {}
-                    WeatherType.WEATHER_CLEAR  -> {}
-                    WeatherType.WEATHER_SNOW   -> {}
+                    WeatherType.WEATHER_SUNNY  -> {
+                        imgItemList.setAnimation("weather_sunny.json")
+                    }
+                    WeatherType.WEATHER_CLOUDY -> {
+                        imgItemList.setAnimation("weather_cloudy.json")
+                    }
+                    WeatherType.WEATHER_RAINY  -> {
+                        imgItemList.setAnimation("weather_rainy.json")
+                    }
+                    WeatherType.WEATHER_CLEAR  -> {
+                        imgItemList.setAnimation("weather_clear.json")
+                    }
+                    WeatherType.WEATHER_SNOW   -> {
+                        imgItemList.setAnimation("weather_snow.json")
+                    }
                 }
             }
         }

@@ -9,8 +9,15 @@
         <item name="colorSecondary">@color/teal_200</item>
         <item name="colorSecondaryVariant">@color/teal_200</item>
         <item name="colorOnSecondary">@color/black</item>
+        <item name="fontFamily">@font/yekan_bakh_regular</item>
+
         <!-- Status bar color. -->
         <item name="android:statusBarColor" tools:targetApi="l">?attr/colorPrimaryVariant</item>
         <!-- Customize your theme here. -->
     </style>
+
+    <style name="roboto_font">
+        <item name="fontFamily">@font/roboto_regular</item>
+    </style>
+
 </resources>

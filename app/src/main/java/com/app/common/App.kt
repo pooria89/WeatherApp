@@ -5,7 +5,7 @@ import android.app.NotificationChannel
 import android.app.NotificationManager
 import android.content.Context
 import android.os.Build
-import com.app.weather.utils.ext.CounterNotificationChannel
+import com.app.weather.utils.CounterNotificationService
 import dagger.hilt.android.HiltAndroidApp
 
 @HiltAndroidApp
@@ -18,7 +18,7 @@ class App : Application() {
     private fun createNotification() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             val channel = NotificationChannel(
-                CounterNotificationChannel.COUNTERR_CHANNEL_ID,
+                CounterNotificationService.COUNTER_CHANNEL_ID,
                 "Weather Counter ",
                 NotificationManager.IMPORTANCE_DEFAULT
             )

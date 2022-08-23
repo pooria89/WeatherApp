@@ -1,28 +1,28 @@
-package com.app.weather
+package com.app.feature.current
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import com.app.common.BaseRecyclerViewAdapter
-import com.app.weather.databinding.RecyclerItemBinding
+import com.app.weather.databinding.ForecastItemBinding
 import com.app.weather.model.current.WeatherType
 import com.app.weather.model.forecast.ListItem
 import com.app.weather.utils.ext.toPersianDateTime
 
-class WeatherAdapter(
+class ForecastWeatherAdapter(
     private val listener: ((ListItem) -> Unit)
-) : BaseRecyclerViewAdapter<ListItem, WeatherAdapter.VH>(COMPARATOR) {
+) : BaseRecyclerViewAdapter<ListItem, ForecastWeatherAdapter.VH>(COMPARATOR) {
 
     override fun getViewHolder(parent: ViewGroup, viewType: Int) =
-        VH(RecyclerItemBinding.inflate(LayoutInflater.from(parent.context)))
+        VH(ForecastItemBinding.inflate(LayoutInflater.from(parent.context)))
 
     inner class VH(
-        private val binding: RecyclerItemBinding
+        private val binding: ForecastItemBinding
     ) : BaseViewHolder(binding.root) {
 
         override fun bind(item: ListItem) {
             binding.apply {
-                txtTemperature.text = item.main?.temp?.toInt().toString()+ " °C"
+                txtTemperature.text = item.main?.temp?.toInt().toString() + " °C"
                 txtDescription.text = item.weather?.firstOrNull()?.description
                 txtWind.text = item.wind?.speed.toString()
                 txtTime.text = item.dtTxt?.toPersianDateTime()

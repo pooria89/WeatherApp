@@ -1,4 +1,4 @@
-package com.app.weather
+package com.app.feature.current
 
 import android.Manifest
 import android.annotation.SuppressLint
@@ -8,13 +8,14 @@ import android.location.Location
 import android.os.Bundle
 import android.provider.Settings
 import android.util.Log
-import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.recyclerview.widget.RecyclerView
-import com.app.weather.databinding.ActivityMainBinding
+import com.app.weather.databinding.ActivityCurrentWeatherBinding
+import com.app.weather.model.Counter
 import com.app.weather.model.current.WeatherType
+import com.app.weather.utils.CounterNotificationService
 import com.app.weather.utils.Resource
 import com.app.weather.utils.ext.fadeIn
 import com.app.weather.utils.ext.hide
@@ -23,20 +24,22 @@ import com.google.android.gms.location.LocationServices
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class MainActivity : AppCompatActivity() {
+class CurrentWeatherActivity : AppCompatActivity() {
 
     private val permissionId: Int = 100
-    private lateinit var adapter: WeatherAdapter
-    private lateinit var binding: ActivityMainBinding
-    private val viewModel: WeatherViewModel by viewModels()
+    private lateinit var adapter: ForecastWeatherAdapter
+    private lateinit var binding: ActivityCurrentWeatherBinding
+    private val viewModel: CurrentWeatherViewModel by viewModels()
     private lateinit var mFusedLocationClient: FusedLocationProviderClient
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        binding = ActivityMainBinding.inflate(layoutInflater)
+        binding = ActivityCurrentWeatherBinding.inflate(layoutInflater)
         setContentView(binding.root)
         mFusedLocationClient = LocationServices.getFusedLocationProviderClient(this)
+        val service = CounterNotificationService(applicationContext)
+        service.showNotification(Counter.value)
         observer()
         getLocation()
     }
@@ -57,9 +60,12 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun requestPermissions() {
-        ActivityCompat.requestPermissions(this, arrayOf(
-            Manifest.permission.ACCESS_COARSE_LOCATION,
-            Manifest.permission.ACCESS_FINE_LOCATION), permissionId)
+        ActivityCompat.requestPermissions(
+            this, arrayOf(
+                Manifest.permission.ACCESS_COARSE_LOCATION,
+                Manifest.permission.ACCESS_FINE_LOCATION
+            ), permissionId
+        )
     }
 
     @SuppressLint("MissingPermission", "SetTextI18n")
@@ -89,7 +95,7 @@ class MainActivity : AppCompatActivity() {
 
     private fun observer() = binding.apply {
 
-        viewModel.currentWeatherResponse.observe(this@MainActivity) { currentWeather ->
+        viewModel.currentWeatherResponse.observe(this@CurrentWeatherActivity) { currentWeather ->
 
             when (currentWeather) {
                 is Resource.Loading -> showProgress()
@@ -131,7 +137,7 @@ class MainActivity : AppCompatActivity() {
 
         }
 
-        viewModel.forecastWeatherResponse.observe(this@MainActivity) { forecastWeather ->
+        viewModel.forecastWeatherResponse.observe(this@CurrentWeatherActivity) { forecastWeather ->
 
             when (forecastWeather) {
                 is Resource.Loading -> showProgress()
@@ -154,7 +160,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun setupRecyclerView(recyclerView: RecyclerView) {
-        adapter = WeatherAdapter { }
+        adapter = ForecastWeatherAdapter { }
         recyclerView.adapter = adapter
     }
 

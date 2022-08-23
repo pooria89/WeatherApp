@@ -22,7 +22,6 @@ import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationServices
 import dagger.hilt.android.AndroidEntryPoint
 
-
 @AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
 
@@ -38,8 +37,8 @@ class MainActivity : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
         mFusedLocationClient = LocationServices.getFusedLocationProviderClient(this)
-        getLocation()
         observer()
+        getLocation()
     }
 
     private fun checkPermissions(): Boolean {
@@ -58,15 +57,9 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun requestPermissions() {
-        Toast.makeText(this, "لطفا دسترسی لازم را بدهید", Toast.LENGTH_SHORT).show()
-        ActivityCompat.requestPermissions(
-            this,
-            arrayOf(
-                Manifest.permission.ACCESS_COARSE_LOCATION,
-                Manifest.permission.ACCESS_FINE_LOCATION
-            ),
-            permissionId
-        )
+        ActivityCompat.requestPermissions(this, arrayOf(
+            Manifest.permission.ACCESS_COARSE_LOCATION,
+            Manifest.permission.ACCESS_FINE_LOCATION), permissionId)
     }
 
     @SuppressLint("MissingPermission", "SetTextI18n")
@@ -86,7 +79,6 @@ class MainActivity : AppCompatActivity() {
                     }
                 }
             } else {
-                Toast.makeText(this, "لطفا موقعیت مکانی خود را فعال کنید", Toast.LENGTH_LONG).show()
                 val intent = Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS)
                 startActivity(intent)
             }
@@ -158,7 +150,7 @@ class MainActivity : AppCompatActivity() {
 
     override fun onResume() {
         super.onResume()
-//        getLocation()
+        getLocation()
     }
 
     private fun setupRecyclerView(recyclerView: RecyclerView) {
@@ -184,7 +176,9 @@ class MainActivity : AppCompatActivity() {
             if ((grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED)) {
                 getLocation()
             }
+            Log.d("sdkn", "onRequestPermissionsResult: ")
         }
+        Log.d("sdgf", "onRequestPermissionsResult: ")
     }
 
 }

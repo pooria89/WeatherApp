@@ -22,7 +22,7 @@ class WeatherAdapter(
 
         override fun bind(item: ListItem) {
             binding.apply {
-                txtTemperature.text = item.main?.temp.toString()
+                txtTemperature.text = item.main?.temp?.toInt().toString()+ " °C"
                 txtDescription.text = item.weather?.firstOrNull()?.description
                 txtWind.text = item.wind?.speed.toString()
                 txtTime.text = item.dtTxt?.toPersianDateTime()

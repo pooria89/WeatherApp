@@ -8,7 +8,7 @@ import com.app.weather.utils.CounterNotificationService
 
 class CounterNotificationReciever: BroadcastReceiver() {
     override fun onReceive(context: Context, p1: Intent) {
-        val service = CounterNotificationService(context = context)
-        service.showNotification(++Counter.value)
+//        val service = CounterNotificationService(context = context)
+//        service.showNotification(++Counter.value)
     }
 }

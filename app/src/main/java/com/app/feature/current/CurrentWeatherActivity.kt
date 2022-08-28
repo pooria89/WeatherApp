@@ -39,7 +39,7 @@ class CurrentWeatherActivity : AppCompatActivity() {
         setContentView(binding.root)
         mFusedLocationClient = LocationServices.getFusedLocationProviderClient(this)
         val service = CounterNotificationService(applicationContext)
-        service.showNotification(Counter.value)
+//        service.showNotification(Counter.value)
         observer()
         getLocation()
     }

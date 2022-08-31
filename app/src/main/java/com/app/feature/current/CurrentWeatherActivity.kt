@@ -19,6 +19,7 @@ import com.app.weather.utils.CounterNotificationService
 import com.app.weather.utils.Resource
 import com.app.weather.utils.ext.fadeIn
 import com.app.weather.utils.ext.hide
+import com.app.weather.utils.ext.isLocationEnabled
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationServices
 import dagger.hilt.android.AndroidEntryPoint
@@ -71,7 +72,7 @@ class CurrentWeatherActivity : AppCompatActivity() {
     @SuppressLint("MissingPermission", "SetTextI18n")
     private fun getLocation() {
         if (checkPermissions()) {
-            if (viewModel.isLocationEnabled(this)) {
+            if (isLocationEnabled()) {
                 mFusedLocationClient.lastLocation.addOnCompleteListener(this) { task ->
                     val location: Location? = task.result
                     if (location != null) {

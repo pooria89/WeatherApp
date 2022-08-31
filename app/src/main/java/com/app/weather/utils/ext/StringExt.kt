@@ -40,3 +40,4 @@ fun String.toPersianDateTime(): String {
     val date = PersianDate(getDate(this))
     return "${date.dayName()} ${date.shDay} ${date.monthName()}، ساعت ${date.hour}:${date.minute}"
 }
+

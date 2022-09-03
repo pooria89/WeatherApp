@@ -25,6 +25,8 @@ import dagger.hilt.android.AndroidEntryPoint
 @AndroidEntryPoint
 class CurrentWeatherActivity : AppCompatActivity() {
 
+
+
     private val permissionId: Int = 100
     private lateinit var adapter: ForecastWeatherAdapter
     private lateinit var binding: ActivityCurrentWeatherBinding

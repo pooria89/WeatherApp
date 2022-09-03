@@ -1,4 +1,4 @@
-package com.app.weather.utils.ext
+package com.app.data.utils.ext
 
 import android.content.Context
 import android.location.LocationManager

@@ -5,7 +5,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
-import com.app.weather.utils.ext.isValidPosition
+import com.app.utils.ext.isValidPosition
 
 abstract class BaseRecyclerViewAdapter<T, VH : BaseRecyclerViewAdapter<T, VH>.BaseViewHolder>(
     diffCallback: DiffUtil.ItemCallback<T>

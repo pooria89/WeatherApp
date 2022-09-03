@@ -1,4 +1,4 @@
-package com.app.weather.model.current
+package com.app.data.model.current
 
 
 data class Weather(

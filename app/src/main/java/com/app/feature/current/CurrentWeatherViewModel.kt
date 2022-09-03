@@ -7,10 +7,10 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.app.weather.model.current.CurrentWeather
-import com.app.weather.model.forecast.Forecast
-import com.app.weather.repository.WeatherRepository
-import com.app.weather.utils.Resource
+import com.app.data.model.current.CurrentWeather
+import com.app.data.model.forecast.Forecast
+import com.app.data.repository.WeatherRepository
+import com.app.utils.Resource
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject

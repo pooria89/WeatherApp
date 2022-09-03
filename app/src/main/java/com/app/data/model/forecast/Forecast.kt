@@ -1,7 +1,5 @@
-package com.app.weather.model.forecast
+package com.app.data.model.forecast
 
-
-import com.google.gson.annotations.SerializedName
 
 data class Forecast(
     val city: City?,

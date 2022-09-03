@@ -1,6 +1,6 @@
-package com.app.weather.utils.ext
+package com.app.utils.ext
 
-import com.app.weather.utils.Constants.YMD_FORMAT
+import com.app.utils.Constants.YMD_FORMAT
 import saman.zamani.persiandate.PersianDate
 import java.text.SimpleDateFormat
 import java.util.*

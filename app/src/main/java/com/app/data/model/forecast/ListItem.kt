@@ -1,9 +1,9 @@
-package com.app.weather.model.forecast
+package com.app.data.model.forecast
 
 
-import com.app.weather.model.current.Clouds
-import com.app.weather.model.current.Sys
-import com.app.weather.model.current.Weather
+import com.app.data.model.current.Clouds
+import com.app.data.model.current.Sys
+import com.app.data.model.current.Weather
 import com.google.gson.annotations.SerializedName
 
 data class ListItem(

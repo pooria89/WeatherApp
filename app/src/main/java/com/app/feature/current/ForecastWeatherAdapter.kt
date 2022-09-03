@@ -4,10 +4,10 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import com.app.common.BaseRecyclerViewAdapter
+import com.app.data.model.current.WeatherType
+import com.app.data.model.forecast.ListItem
+import com.app.utils.ext.toPersianDateTime
 import com.app.weather.databinding.ForecastItemBinding
-import com.app.weather.model.current.WeatherType
-import com.app.weather.model.forecast.ListItem
-import com.app.weather.utils.ext.toPersianDateTime
 
 class ForecastWeatherAdapter(
     private val listener: ((ListItem) -> Unit)

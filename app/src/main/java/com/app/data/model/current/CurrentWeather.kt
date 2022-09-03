@@ -1,6 +1,6 @@
-package com.app.weather.model.current
+package com.app.data.model.current
 
-import com.app.weather.model.forecast.Main
+import com.app.data.model.forecast.Main
 
 
 data class CurrentWeather(

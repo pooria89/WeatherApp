@@ -1,4 +1,4 @@
-package com.app.weather.utils
+package com.app.utils
 
 sealed class Resource<out T> {
 

@@ -1,8 +1,8 @@
-package com.app.weather.api
+package com.app.data.api
 
-import com.app.weather.model.current.CurrentWeather
-import com.app.weather.model.forecast.Forecast
-import com.app.weather.utils.Constants
+import com.app.data.model.current.CurrentWeather
+import com.app.data.model.forecast.Forecast
+import com.app.utils.Constants
 import retrofit2.Response
 import retrofit2.http.GET
 import retrofit2.http.Headers

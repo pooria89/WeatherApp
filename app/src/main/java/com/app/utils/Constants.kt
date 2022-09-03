@@ -1,4 +1,4 @@
-package com.app.weather.utils
+package com.app.utils
 
 object Constants {
 //    const val BASE_URL = "https://goweather.herokuapp.com/"

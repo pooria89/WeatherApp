@@ -1,4 +1,4 @@
-package com.app.weather.utils.ext
+package com.app.utils.ext
 
 import android.animation.Animator
 import android.animation.AnimatorListenerAdapter

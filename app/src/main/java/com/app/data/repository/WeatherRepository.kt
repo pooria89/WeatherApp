@@ -1,6 +1,6 @@
-package com.app.weather.repository
+package com.app.data.repository
 
-import com.app.weather.api.ApiService
+import com.app.data.api.ApiService
 import javax.inject.Inject
 
 class WeatherRepository @Inject constructor(

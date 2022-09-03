@@ -1,7 +1,7 @@
-package com.app.weather.model.forecast
+package com.app.data.model.forecast
 
 
-import com.app.weather.model.current.Coord
+import com.app.data.model.current.Coord
 
 data class City(
     val coord: Coord?,

@@ -142,4 +142,19 @@ class CurrentWeatherActivity : AppCompatActivity() {
         binding.loading.root.hide()
     }
 
+    @SuppressLint("MissingSuperCall")
+    override fun onRequestPermissionsResult(
+        requestCode: Int,
+        permissions: Array<String>,
+        grantResults: IntArray
+    ) {
+        if (requestCode == permissionId) {
+            if ((grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED)) {
+                getLocation()
+            }
+            Log.d("sdkn", "onRequestPermissionsResult: ")
+        }
+        Log.d("sdgf", "onRequestPermissionsResult: ")
+    }
+
 }

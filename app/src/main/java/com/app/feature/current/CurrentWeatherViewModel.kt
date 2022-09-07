@@ -1,7 +1,5 @@
 package com.app.feature.current
 
-import android.content.Context
-import android.location.LocationManager
 import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData

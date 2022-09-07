@@ -1,16 +1,13 @@
 package com.app.feature.current
 
-import android.annotation.SuppressLint
-import android.content.Intent
-import android.location.Location
+import android.Manifest
 import android.os.Bundle
-import android.provider.Settings
 import android.util.Log
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.RecyclerView
 import com.app.data.model.current.WeatherType
-import com.app.data.utils.ext.isLocationEnabled
 import com.app.utils.Resource
 import com.app.utils.ext.fadeIn
 import com.app.utils.ext.hide
@@ -19,14 +16,25 @@ import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationServices
 import dagger.hilt.android.AndroidEntryPoint
 
+
 @AndroidEntryPoint
 class CurrentWeatherActivity : AppCompatActivity() {
 
     private lateinit var adapter: ForecastWeatherAdapter
     private lateinit var binding: ActivityCurrentWeatherBinding
     private val viewModel: CurrentWeatherViewModel by viewModels()
+
     private lateinit var mFusedLocationClient: FusedLocationProviderClient
 
+    private val locationPermissionRequest = registerForActivityResult(
+        ActivityResultContracts.RequestMultiplePermissions()
+    ) { permissions ->
+        when {
+            permissions.getOrDefault(Manifest.permission.ACCESS_FINE_LOCATION, false)   -> {}
+            permissions.getOrDefault(Manifest.permission.ACCESS_COARSE_LOCATION, false) -> {}
+            else                                                                        -> {}
+        }
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -34,33 +42,28 @@ class CurrentWeatherActivity : AppCompatActivity() {
         setContentView(binding.root)
         mFusedLocationClient = LocationServices.getFusedLocationProviderClient(this)
         observer()
-        getLocation()
+        requestPermission()
+        getCurrentLocation()
+    }
 
+    /**
+     * Request permission
+     *
+     */
+    private fun requestPermission() {
+        locationPermissionRequest.launch(arrayOf(Manifest.permission.ACCESS_COARSE_LOCATION))
     }
 
 
-    @SuppressLint("MissingPermission", "SetTextI18n")
-    private fun getLocation() {
-        if (isLocationEnabled()) {
-            mFusedLocationClient.lastLocation.addOnSuccessListener(this) { task ->
-                val location: Location? = task
-                Log.e("gpssss", "Latitude\n ${location?.latitude}")
-                Log.e("gpssss", "Longitude\n${location?.longitude}")
-//                    if (location != null) {
-//                        Log.e("gpssss", "Latitude\n ${location.latitude}")
-//                        Log.e("gpssss", "Longitude\n${location.longitude}")
-//                        viewModel.currentWeather(
-//                            lat = location.latitude.toString(),
-//                            lon = location.longitude.toString()
-//                        )
-//
-//                    }
-            }
-        } else {
-            val intent = Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS)
-            startActivity(intent)
+    private fun getCurrentLocation() {
+        mFusedLocationClient.lastLocation.addOnSuccessListener { location ->
+            Log.e("gpssss", "Latitude\n ${location.latitude}")
+            Log.e("gpssss", "Longitude\n${location.longitude}")
+            viewModel.currentWeather(
+                lat = location.latitude.toString(),
+                lon = location.longitude.toString()
+            )
         }
-
     }
 
     private fun observer() = binding.apply {
@@ -126,7 +129,7 @@ class CurrentWeatherActivity : AppCompatActivity() {
 
     override fun onResume() {
         super.onResume()
-        getLocation()
+        getCurrentLocation()
     }
 
     private fun setupRecyclerView(recyclerView: RecyclerView) {
@@ -141,4 +144,5 @@ class CurrentWeatherActivity : AppCompatActivity() {
     private fun hideProgress() {
         binding.loading.root.hide()
     }
+
 }

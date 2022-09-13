@@ -1,4 +1,4 @@
-package com.app.utils
+package com.app.common
 
 sealed class Resource<out T> {
 

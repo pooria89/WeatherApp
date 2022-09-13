@@ -1,7 +1,7 @@
 package com.app.di
 
 import com.app.data.api.ApiService
-import com.app.utils.Constants
+import com.app.common.Constants
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn

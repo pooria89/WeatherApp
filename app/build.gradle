@@ -70,12 +70,13 @@ dependencies {
     implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:2.5.1"
     implementation "androidx.lifecycle:lifecycle-runtime-ktx:2.5.1"
     implementation "androidx.activity:activity-ktx:1.5.1"
+    kapt "androidx.lifecycle:lifecycle-compiler:2.6.0-alpha01"
 
-    //dagger-hilt
+    // Dagger-hilt
     implementation("com.google.dagger:hilt-android:2.38.1")
     kapt("com.google.dagger:hilt-android-compiler:2.38.1")
 
-    // lottie
+    // Lottie
     implementation "com.airbnb.android:lottie:5.2.0"
 
     // Persian Date
@@ -94,7 +95,8 @@ dependencies {
     testImplementation "androidx.arch.core:core-testing:2.1.0"
     testImplementation "org.jetbrains.kotlinx:kotlinx-coroutines-test:1.6.1"
 
-    // Easy Permission
-    implementation 'pub.devrel:easypermissions:3.0.0'
-
+    // Lifecycle
+    implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:2.5.1"
+    implementation "androidx.lifecycle:lifecycle-livedata-ktx:2.5.1"
+    implementation 'androidx.fragment:fragment-ktx:1.5.2'
 }

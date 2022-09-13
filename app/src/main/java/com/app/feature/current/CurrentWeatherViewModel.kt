@@ -1,77 +1,7 @@
 package com.app.feature.current
 
-import android.util.Log
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
-import com.app.data.model.current.CurrentWeather
-import com.app.data.model.forecast.Forecast
-import com.app.data.repository.WeatherRepository
-import com.app.utils.Resource
-import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.launch
-import javax.inject.Inject
 
-@HiltViewModel
-class CurrentWeatherViewModel @Inject constructor(
-    private val repository: WeatherRepository
-) : ViewModel() {
-
-    private val _currentWeather = MutableLiveData<Resource<CurrentWeather>>(Resource.Initialize)
-    val currentWeatherResponse: LiveData<Resource<CurrentWeather>> = _currentWeather
-
-    private val _forecastWeather = MutableLiveData<Resource<Forecast>>(Resource.Initialize)
-    val forecastWeatherResponse: LiveData<Resource<Forecast>> = _forecastWeather
-
-
-    /**
-     * Current weather
-     *
-     * @param lat
-     * @param lon
-     */
-    fun currentWeather(
-        lat: String,
-        lon: String
-    ) = viewModelScope.launch {
-        _currentWeather.postValue(Resource.Loading)
-        try {
-            val response = repository.currentWeather(lat = lat, lon = lon)
-            Log.d("tag", "getWeather Error: $response")
-
-            if (response.isSuccessful) {
-                _currentWeather.postValue(Resource.Success(response.body()!!))
-            } else {
-                _currentWeather.postValue(Resource.Failure("Api Failed"))
-            }
-        } catch (e: Exception) {
-            _currentWeather.postValue(Resource.Failure(e.message.toString()))
-            Log.d("tag", "getWeather Error: ${e.message}")
-        }
-
-    }
-
-    fun forecastWeather(
-        lat: String,
-        lon: String
-    ) = viewModelScope.launch {
-        _forecastWeather.postValue(Resource.Loading)
-        try {
-            val response = repository.forecastWeather(lat = lat, lon = lon)
-            Log.d("tag", "forecastWeather Error: $response")
-
-            if (response.isSuccessful) {
-                _forecastWeather.postValue(Resource.Success(response.body()!!))
-            } else {
-                _forecastWeather.postValue(Resource.Failure("Api Failed"))
-            }
-        } catch (e: Exception) {
-            _forecastWeather.postValue(Resource.Failure(e.message.toString()))
-            Log.d("tag", "forecastWeather Error: ${e.message}")
-        }
-
-    }
-
-
+class CurrentWeatherViewModel : ViewModel() {
+    // TODO: Implement the ViewModel
 }

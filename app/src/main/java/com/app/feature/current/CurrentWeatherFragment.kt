@@ -9,6 +9,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
@@ -23,6 +24,7 @@ import com.app.weather.databinding.FragmentCurrentWeatherBinding
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationServices
 import dagger.hilt.android.AndroidEntryPoint
+import kotlin.concurrent.thread
 
 @AndroidEntryPoint
 class CurrentWeatherFragment : Fragment() {
@@ -75,13 +77,13 @@ class CurrentWeatherFragment : Fragment() {
                         hideProgress()
                         Log.d(TAG, "observe: $it")
                         it.data.dal?.getSunV3LocationSearchUrlConfig?.forEach { (key, value) ->
-                            Log.d(TAG, "$key = $value.")
-                            setupUI(value)
+                            Log.d(TAG, "$key = $value")
+                            setupLocationUI(value)
                         }
                     }
                     is Resource.Failure -> {
                         hideProgress()
-
+                        Toast.makeText(requireActivity(), "$it", Toast.LENGTH_SHORT).show()
                     }
                 }
             }
@@ -131,17 +133,26 @@ class CurrentWeatherFragment : Fragment() {
 
     }
 
-    private fun setupUI(value: GetSunV3LocationSearchUrlConfig) = binding.apply {
+    private fun setupLocationUI(value: GetSunV3LocationSearchUrlConfig) = binding.apply {
 
-        val location = value.data?.location
-        val placeId = location?.placeId?.firstOrNull() // "sdfsdfjsdfgbfdg"
-        val latitude = location?.latitude?.firstOrNull() // ۲۳۹۴۸۲۳۹۰۴۸
-        val longitude = location?.longitude?.firstOrNull() //۳۲۹۴۸۳۴
-        val city = location?.city?.firstOrNull() //تهران
-        val country = location?.country?.firstOrNull() // ایران
-        val displayName = location?.displayName?.firstOrNull() // میدان راه اهن
-        val ianaTimeZone = location?.ianaTimeZone?.firstOrNull() // اسیا / تهران
-        val locale = location?.locale?.firstOrNull()?.locale3 // میدان بهادری
+        thread {
+
+            val location = value.data?.location
+
+            val placeId = location?.placeId?.firstOrNull() // "sdfsdfjsdfgbfdg"
+            val latitude = location?.latitude?.firstOrNull() // ۲۳۹۴۸۲۳۹۰۴۸
+            val longitude = location?.longitude?.firstOrNull() //۳۲۹۴۸۳۴
+            val city = location?.city?.firstOrNull() //تهران
+            val country = location?.country?.firstOrNull() // ایران
+            val displayName = location?.displayName?.firstOrNull() // میدان راه اهن
+            val ianaTimeZone = location?.ianaTimeZone?.firstOrNull() // اسیا / تهران
+            val locale = location?.locale?.firstOrNull()?.locale3 // میدان بهادری
+
+            txtCountry.text = country
+            txtCity.text = displayName
+            txtDate.text = ianaTimeZone
+
+        }
     }
 
     private fun requestPermission() {

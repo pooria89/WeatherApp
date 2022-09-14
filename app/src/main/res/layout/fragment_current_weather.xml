@@ -26,9 +26,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="left"
-                android:text="ایران"
                 android:textColor="#313341"
-                android:textSize="40sp"
+                android:textSize="30sp"
                 android:textStyle="bold" />
 
             <androidx.appcompat.widget.AppCompatTextView
@@ -36,9 +35,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="left"
-                android:text="ولیعصر"
                 android:textColor="#313341"
-                android:textSize="35sp"
+                android:textSize="20sp"
                 android:textStyle="bold" />
 
             <androidx.appcompat.widget.LinearLayoutCompat
@@ -52,9 +50,9 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="left"
-                    android:text="Tue,Jan 30"
+                    android:layout_marginTop="10dp"
                     android:textColor="#9A938C"
-                    android:textSize="20sp"
+                    android:textSize="15sp"
                     android:textStyle="bold" />
 
             </androidx.appcompat.widget.LinearLayoutCompat>
@@ -99,7 +97,7 @@
                         android:layout_gravity="center"
                         android:text="بارانی"
                         android:textColor="#313341"
-                        android:textSize="30sp"
+                        android:textSize="25sp"
                         android:textStyle="bold" />
 
                 </androidx.appcompat.widget.LinearLayoutCompat>
@@ -148,7 +146,7 @@
                             android:layout_height="wrap_content"
                             android:layout_gravity="center"
                             android:layout_marginStart="15dp"
-                            android:text="آفتاب"
+                            android:text="آفتابی"
                             android:textColor="#313341"
                             android:textSize="15sp" />
 

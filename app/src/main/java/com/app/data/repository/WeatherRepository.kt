@@ -9,7 +9,11 @@ class WeatherRepository @Inject constructor(
     private val apiService: ApiService
 ) {
 
-
+    /**
+     * Get place id
+     *
+     * @param geo
+     */
     suspend fun getPlaceId(
         geo: String
     ) = apiService.getPlaceId(
@@ -18,6 +22,20 @@ class WeatherRepository @Inject constructor(
                 params = Geo(query = geo)
             )
         )
+    )
+
+
+    /**
+     * Get current weather
+     *
+     * @param latitude
+     * @param longitude
+     */
+    suspend fun getCurrentWeather(
+        latitude: String, longitude: String
+    ) = apiService.currentWeather(
+        lat = latitude,
+        lon = longitude
     )
 
 }

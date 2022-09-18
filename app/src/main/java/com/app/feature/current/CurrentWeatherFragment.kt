@@ -9,7 +9,6 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
@@ -24,7 +23,6 @@ import com.app.weather.databinding.FragmentCurrentWeatherBinding
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationServices
 import dagger.hilt.android.AndroidEntryPoint
-import kotlin.concurrent.thread
 
 @AndroidEntryPoint
 class CurrentWeatherFragment : Fragment() {
@@ -76,14 +74,31 @@ class CurrentWeatherFragment : Fragment() {
                     is Resource.Success -> {
                         hideProgress()
                         Log.d(TAG, "observe: $it")
+
                         it.data.dal?.getSunV3LocationSearchUrlConfig?.forEach { (key, value) ->
                             Log.d(TAG, "$key = $value")
+                            viewModel.getCurrentWeather(
+                                latitude = value.data?.location?.latitude?.firstOrNull().toString(),
+                                longitude = value.data?.location?.longitude?.firstOrNull().toString()
+                            )
                             setupLocationUI(value)
                         }
                     }
                     is Resource.Failure -> {
                         hideProgress()
-                        Toast.makeText(requireActivity(), "$it", Toast.LENGTH_SHORT).show()
+                    }
+                }
+            }
+
+            viewModel.getCurrentWeather.collect {
+                when (it) {
+                    is Resource.Loading -> hideProgress()
+                    is Resource.Success -> {
+                        hideProgress()
+                        Log.d(TAG, "observe: $it")
+                    }
+                    is Resource.Failure -> {
+                        hideProgress()
                     }
                 }
             }
@@ -135,24 +150,21 @@ class CurrentWeatherFragment : Fragment() {
 
     private fun setupLocationUI(value: GetSunV3LocationSearchUrlConfig) = binding.apply {
 
-        thread {
+        val location = value.data?.location
 
-            val location = value.data?.location
+        val placeId = location?.placeId?.firstOrNull() // "sdfsdfjsdfgbfdg"
+        val latitude = location?.latitude?.firstOrNull() // ۲۳۹۴۸۲۳۹۰۴۸
+        val longitude = location?.longitude?.firstOrNull() //۳۲۹۴۸۳۴
+        val city = location?.city?.firstOrNull() //تهران
+        val country = location?.country?.firstOrNull() // ایران
+        val displayName = location?.displayName?.firstOrNull() // میدان راه اهن
+        val ianaTimeZone = location?.ianaTimeZone?.firstOrNull() // اسیا / تهران
+        val locale = location?.locale?.firstOrNull()?.locale3 // میدان بهادری
 
-            val placeId = location?.placeId?.firstOrNull() // "sdfsdfjsdfgbfdg"
-            val latitude = location?.latitude?.firstOrNull() // ۲۳۹۴۸۲۳۹۰۴۸
-            val longitude = location?.longitude?.firstOrNull() //۳۲۹۴۸۳۴
-            val city = location?.city?.firstOrNull() //تهران
-            val country = location?.country?.firstOrNull() // ایران
-            val displayName = location?.displayName?.firstOrNull() // میدان راه اهن
-            val ianaTimeZone = location?.ianaTimeZone?.firstOrNull() // اسیا / تهران
-            val locale = location?.locale?.firstOrNull()?.locale3 // میدان بهادری
+        txtCountry.text = country.toString()
+        txtCity.text = displayName.toString()
+        txtDate.text = ianaTimeZone.toString()
 
-            txtCountry.text = country
-            txtCity.text = displayName
-            txtDate.text = ianaTimeZone
-
-        }
     }
 
     private fun requestPermission() {

@@ -12,3 +12,5 @@ fun String.showTemp() = "$this °C"
  *
  */
 fun String.showAt() = "$this at"
+
+fun String.showPercentage() = "$this %"

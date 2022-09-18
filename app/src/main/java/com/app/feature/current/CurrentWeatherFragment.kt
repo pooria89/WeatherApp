@@ -159,7 +159,7 @@ class CurrentWeatherFragment : Fragment() {
         txtDegreeStatus.text = currentWeather.weather?.firstOrNull()?.description
         txtTemp.text = currentWeather.main?.temp.toString().showTemp()
         txtPressure.text = currentWeather.main?.pressure.toString().showAt()
-        txtHumidity.text = currentWeather.main?.humidity.toString()
+        txtHumidity.text = currentWeather.main?.humidity.toString().showPercentage()
         txtSunrise.text = currentWeather.sys?.sunrise.toString()
         txtSunset.text = currentWeather.sys?.sunset.toString()
         when (currentWeather.weather?.firstOrNull()?.main) {

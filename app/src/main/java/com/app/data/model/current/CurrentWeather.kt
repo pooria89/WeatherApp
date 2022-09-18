@@ -17,4 +17,13 @@ data class CurrentWeather(
     val visibility: Int?,
     val weather: List<Weather?>?,
     val wind: Wind?
+
 )
+
+object WeatherType {
+    const val WEATHER_SUNNY ="Sunny"
+    const val WEATHER_CLOUDY ="Clouds"
+    const val WEATHER_RAINY ="Rainy"
+    const val WEATHER_CLEAR ="Clear"
+    const val WEATHER_SNOW ="Snow"
+}

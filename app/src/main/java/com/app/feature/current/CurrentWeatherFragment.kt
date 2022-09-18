@@ -15,10 +15,10 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.RecyclerView
 import com.app.common.Resource
+import com.app.data.model.current.CurrentWeather
+import com.app.data.model.current.WeatherType
 import com.app.data.model.get_place_id.response.GetSunV3LocationSearchUrlConfig
-import com.app.utils.ext.fadeIn
-import com.app.utils.ext.hide
-import com.app.utils.ext.isGpsEnabled
+import com.app.utils.ext.*
 import com.app.weather.databinding.FragmentCurrentWeatherBinding
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationServices
@@ -61,8 +61,11 @@ class CurrentWeatherFragment : Fragment() {
         getCurrentLocation()
     }
 
-    private fun setupView() {
-
+    private fun setupView() = binding.apply {
+        lottieSunrise.setAnimation("sunrise.json")
+        lottieSunset.setAnimation("sunset.json")
+        lottiePressure.setAnimation("pressure.json")
+        lottieHumidity.setAnimation("humidity.json")
     }
 
     private fun observe() {
@@ -79,7 +82,8 @@ class CurrentWeatherFragment : Fragment() {
                             Log.d(TAG, "$key = $value")
                             viewModel.getCurrentWeather(
                                 latitude = value.data?.location?.latitude?.firstOrNull().toString(),
-                                longitude = value.data?.location?.longitude?.firstOrNull().toString()
+                                longitude = value.data?.location?.longitude?.firstOrNull()
+                                    .toString()
                             )
                             setupLocationUI(value)
                         }
@@ -89,13 +93,16 @@ class CurrentWeatherFragment : Fragment() {
                     }
                 }
             }
+        }
 
+        lifecycleScope.launchWhenCreated {
             viewModel.getCurrentWeather.collect {
                 when (it) {
                     is Resource.Loading -> hideProgress()
                     is Resource.Success -> {
                         hideProgress()
                         Log.d(TAG, "observe: $it")
+                        setupCurrentWeatherUI(it.data)
                     }
                     is Resource.Failure -> {
                         hideProgress()
@@ -146,6 +153,32 @@ class CurrentWeatherFragment : Fragment() {
 //
 //        }
 
+    }
+
+    private fun setupCurrentWeatherUI(currentWeather: CurrentWeather) = binding.apply {
+        txtDegreeStatus.text = currentWeather.weather?.firstOrNull()?.description
+        txtTemp.text = currentWeather.main?.temp.toString().showTemp()
+        txtPressure.text = currentWeather.main?.pressure.toString().showAt()
+        txtHumidity.text = currentWeather.main?.humidity.toString()
+        txtSunrise.text = currentWeather.sys?.sunrise.toString()
+        txtSunset.text = currentWeather.sys?.sunset.toString()
+        when (currentWeather.weather?.firstOrNull()?.main) {
+            WeatherType.WEATHER_SUNNY  -> {
+                animationWeather.setAnimation("weather_sunny.json")
+            }
+            WeatherType.WEATHER_CLOUDY -> {
+                animationWeather.setAnimation("weather_cloudy.json")
+            }
+            WeatherType.WEATHER_RAINY  -> {
+                animationWeather.setAnimation("weather_rainy.json")
+            }
+            WeatherType.WEATHER_CLEAR  -> {
+                animationWeather.setAnimation("weather_clear.json")
+            }
+            WeatherType.WEATHER_SNOW   -> {
+                animationWeather.setAnimation("weather_snow.json")
+            }
+        }
     }
 
     private fun setupLocationUI(value: GetSunV3LocationSearchUrlConfig) = binding.apply {

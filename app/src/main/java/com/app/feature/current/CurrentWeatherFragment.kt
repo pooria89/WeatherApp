@@ -29,7 +29,7 @@ class CurrentWeatherFragment : Fragment() {
 
 
     private val viewModel: CurrentWeatherViewModel by viewModels()
-    private lateinit var binding: FragmentCurrentWeatherBinding
+        private lateinit var binding: FragmentCurrentWeatherBinding
 
     private lateinit var mFusedLocationClient: FusedLocationProviderClient
 

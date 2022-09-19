@@ -70,7 +70,7 @@
                         android:id="@+id/animation_weather"
                         android:layout_width="wrap_content"
                         android:layout_height="150dp"
-                        android:layout_weight="1.75"
+                        android:layout_weight="1.5"
                         app:lottie_autoPlay="true"
                         app:lottie_loop="true"
                         app:lottie_speed="1.5" />
@@ -79,7 +79,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
-                        android:layout_weight="1"
+                        android:layout_weight="1.5"
                         android:orientation="vertical">
 
 

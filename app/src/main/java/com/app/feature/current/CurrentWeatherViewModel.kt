@@ -4,6 +4,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.app.common.Resource
 import com.app.data.model.current.CurrentWeather
+import com.app.data.model.forecast.ForecastWeather
 import com.app.data.model.get_place_id.response.PlaceIdResult
 import com.app.data.repository.WeatherRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -43,7 +44,7 @@ class CurrentWeatherViewModel @Inject constructor(
         _getCurrentWeather.emit(Resource.Loading)
         try {
             val response = repository.getCurrentWeather(
-                latitude=latitude,
+                latitude = latitude,
                 longitude = longitude
             )
             _getCurrentWeather.emit(Resource.Success(response))
@@ -52,4 +53,20 @@ class CurrentWeatherViewModel @Inject constructor(
         }
     }
 
+    private val _getForecastWeather =
+        MutableStateFlow<Resource<ForecastWeather>>(Resource.Initialize)
+    val getForecastWeather: Flow<Resource<ForecastWeather>> = _getForecastWeather
+
+    fun getForecastWeather(latitude: String, longitude: String) = viewModelScope.launch() {
+        _getForecastWeather.emit(Resource.Loading)
+        try {
+            val response = repository.getForecastWeather(
+                latitude = latitude,
+                longitude = longitude
+            )
+            _getForecastWeather.emit(Resource.Success(response))
+        } catch (e: Exception) {
+            _getForecastWeather.emit(Resource.Failure(message = e.message.toString()))
+        }
+    }
 }

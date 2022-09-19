@@ -23,23 +23,26 @@ import com.app.weather.databinding.FragmentCurrentWeatherBinding
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationServices
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.flow.collect
 
 @AndroidEntryPoint
 class CurrentWeatherFragment : Fragment() {
 
 
     private val viewModel: CurrentWeatherViewModel by viewModels()
-        private lateinit var binding: FragmentCurrentWeatherBinding
+    private lateinit var binding: FragmentCurrentWeatherBinding
 
     private lateinit var mFusedLocationClient: FusedLocationProviderClient
+    private var latitude: String = ""
+    private var longitude: String = ""
 
     private val locationPermissionRequest = registerForActivityResult(
         ActivityResultContracts.RequestMultiplePermissions()
     ) { permissions ->
         when {
-            permissions.getOrDefault(Manifest.permission.ACCESS_FINE_LOCATION, false)   -> {}
+            permissions.getOrDefault(Manifest.permission.ACCESS_FINE_LOCATION, false) -> {}
             permissions.getOrDefault(Manifest.permission.ACCESS_COARSE_LOCATION, false) -> {}
-            else                                                                        -> {}
+            else -> {}
         }
     }
 
@@ -102,6 +105,10 @@ class CurrentWeatherFragment : Fragment() {
                     is Resource.Success -> {
                         hideProgress()
                         Log.d(TAG, "observe: $it")
+                        viewModel.getForecastWeather(
+                            latitude = latitude,
+                            longitude = longitude
+                        )
                         setupCurrentWeatherUI(it.data)
                     }
                     is Resource.Failure -> {
@@ -111,47 +118,26 @@ class CurrentWeatherFragment : Fragment() {
             }
         }
 
-//        viewModel.currentWeatherResponse.observe(this@MainActivity) { currentWeather ->
-//
-//            when (currentWeather) {
-//                is Resource.Loading -> showProgress()
-//                is Resource.Success -> {
-//                    viewModel.forecastWeather(
-//                        lat = currentWeather.data.coord?.lat.toString(),
-//                        lon = currentWeather.data.coord?.lon.toString()
-//                    )
-//                    Log.d("currentWeather", currentWeather.toString())
-//                    hideProgress()
-//                    setupRecyclerView(rvWeather)
-//                    txtDescription.text = currentWeather.data.weather?.firstOrNull()?.description
-//                    txtCity.text = currentWeather.data.name
-//                    txtTemp.text = currentWeather.data.main?.temp?.toInt().toString() + " °C"
-//                    txtMinTemp.text = currentWeather.data.main?.tempMin?.toInt().toString() + " °C"
-//                    txtMaxTemp.text = currentWeather.data.main?.tempMax?.toInt().toString() + " °C"
-//                    when (currentWeather.data.weather?.firstOrNull()?.main) {
-//                        WeatherType.WEATHER_SUNNY  -> {
-//                            animationWeather.setAnimation("weather_sunny.json")
-//                        }
-//                        WeatherType.WEATHER_CLOUDY -> {
-//                            animationWeather.setAnimation("weather_cloudy.json")
-//                        }
-//                        WeatherType.WEATHER_RAINY  -> {
-//                            animationWeather.setAnimation("weather_rainy.json")
-//                        }
-//                        WeatherType.WEATHER_CLEAR  -> {
-//                            animationWeather.setAnimation("weather_clear.json")
-//                        }
-//                        WeatherType.WEATHER_SNOW   -> {
-//                            animationWeather.setAnimation("weather_snow.json")
-//                        }
-//                    }
-//                }
-//                is Resource.Failure -> {
-//                    hideProgress()
-//                }
-//            }
-//
-//        }
+
+        lifecycleScope.launchWhenCreated {
+            viewModel.getForecastWeather.collect {
+                when (it) {
+                    is Resource.Loading -> hideProgress()
+                    is Resource.Success -> {
+                        hideProgress()
+                        Log.d(TAG, "observe: $it")
+                        viewModel.getForecastWeather(
+                            latitude = latitude,
+                            longitude = longitude
+                        )
+                    }
+                    is Resource.Failure -> {
+                        hideProgress()
+                    }
+                }
+            }
+
+        }
 
     }
 
@@ -163,19 +149,19 @@ class CurrentWeatherFragment : Fragment() {
         txtSunrise.text = currentWeather.sys?.sunrise.toString()
         txtSunset.text = currentWeather.sys?.sunset.toString()
         when (currentWeather.weather?.firstOrNull()?.main) {
-            WeatherType.WEATHER_SUNNY  -> {
+            WeatherType.WEATHER_SUNNY -> {
                 animationWeather.setAnimation("weather_sunny.json")
             }
             WeatherType.WEATHER_CLOUDY -> {
                 animationWeather.setAnimation("weather_cloudy.json")
             }
-            WeatherType.WEATHER_RAINY  -> {
+            WeatherType.WEATHER_RAINY -> {
                 animationWeather.setAnimation("weather_rainy.json")
             }
-            WeatherType.WEATHER_CLEAR  -> {
+            WeatherType.WEATHER_CLEAR -> {
                 animationWeather.setAnimation("weather_clear.json")
             }
-            WeatherType.WEATHER_SNOW   -> {
+            WeatherType.WEATHER_SNOW -> {
                 animationWeather.setAnimation("weather_snow.json")
             }
         }
@@ -209,6 +195,8 @@ class CurrentWeatherFragment : Fragment() {
             mFusedLocationClient.lastLocation.addOnSuccessListener { location ->
                 Log.e("gpssss", "Latitude\n ${location.latitude}")
                 Log.e("gpssss", "Longitude\n${location.longitude}")
+                latitude = location.latitude.toString()
+                longitude = location.longitude.toString()
                 viewModel.getPlaceId(
                     geo = "${location.latitude}" + "," + "${location.longitude}"
                 )

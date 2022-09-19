@@ -2,6 +2,7 @@ package com.app.data.api
 
 import com.app.common.Constants
 import com.app.data.model.current.CurrentWeather
+import com.app.data.model.forecast.ForecastWeather
 import com.app.data.model.get_place_id.request.PlaceId
 import com.app.data.model.get_place_id.response.PlaceIdResult
 import retrofit2.http.*
@@ -32,10 +33,21 @@ interface ApiService {
      * @return
      */
     @Headers("Accept: application/json")
+    @GET("${Constants.BASE_URL1}weather")
+    suspend fun currentWeather(
+        @Query("appid") appid: String = Constants.API_KEY,
+        @Query("lat") lat: String,
+        @Query("lon") lon: String,
+        @Query("units") units: String = "metric",
+        @Query("lang") lang: String = "fa",
+    ): CurrentWeather
+
+
+    @Headers("Accept: application/json")
     @GET("${Constants.BASE_URL2}forecast")
     suspend fun forecastWeather(
         @Query("latitude") latitude: String,
         @Query("longitude") longitude: String,
         @Query("hourly") hourly: String = "temperature_2m,relativehumidity_2m,windspeed_10m",
-    ): CurrentWeather
+    ): ForecastWeather
 }

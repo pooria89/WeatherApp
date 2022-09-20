@@ -153,7 +153,8 @@ class CurrentWeatherFragment : Fragment() {
                         }
                     }
                     is Resource.Failure -> {
-                        Toast.makeText(requireContext(), "مشکلی رخ داده است", Toast.LENGTH_SHORT).show()
+                        Toast.makeText(requireContext(), "مشکلی رخ داده است", Toast.LENGTH_SHORT)
+                            .show()
                         hideProgress()
                     }
                 }
@@ -172,7 +173,8 @@ class CurrentWeatherFragment : Fragment() {
                         )
                     }
                     is Resource.Failure -> {
-                        Toast.makeText(requireContext(), "مشکلی رخ داده است", Toast.LENGTH_SHORT).show()
+                        Toast.makeText(requireContext(), "مشکلی رخ داده است", Toast.LENGTH_SHORT)
+                            .show()
                         hideProgress()
                     }
                 }
@@ -184,12 +186,19 @@ class CurrentWeatherFragment : Fragment() {
                 when (it) {
                     is Resource.Loading -> hideProgress()
                     is Resource.Success -> {
+                        binding.apply {
+                            llHumidity.visibility = View.VISIBLE
+                            llSunset.visibility = View.VISIBLE
+                            llSunsrise.visibility = View.VISIBLE
+                            txtForecast.visibility = View.VISIBLE
+                        }
                         adapter.submitList(it.data.list)
                         Log.d(TAG, "observe: $it")
                         hideProgress()
                     }
                     is Resource.Failure -> {
-                        Toast.makeText(requireContext(), "مشکلی رخ داده است", Toast.LENGTH_SHORT).show()
+                        Toast.makeText(requireContext(), "مشکلی رخ داده است", Toast.LENGTH_SHORT)
+                            .show()
                         hideProgress()
                     }
                 }

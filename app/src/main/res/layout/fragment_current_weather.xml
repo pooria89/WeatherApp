@@ -10,12 +10,12 @@
     tools:context="com.app.feature.current.CurrentWeatherFragment">
 
     <ScrollView
-        android:layout_width="fill_parent"
-        android:layout_height="fill_parent">
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
 
         <androidx.appcompat.widget.LinearLayoutCompat
-            android:layout_width="fill_parent"
-            android:layout_height="fill_parent"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
             android:orientation="vertical">
 
             <androidx.appcompat.widget.LinearLayoutCompat
@@ -104,73 +104,69 @@
 
                 </androidx.appcompat.widget.LinearLayoutCompat>
 
-<!--                humidity-->
+                <!--                humidity-->
                 <androidx.appcompat.widget.LinearLayoutCompat
+                    android:id="@+id/ll_humidity"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="3dp">
+                    android:layout_marginTop="3dp"
+                    android:visibility="gone"
+                    tools:visibility="visible">
 
                     <com.google.android.material.card.MaterialCardView
                         android:layout_width="match_parent"
                         android:layout_height="60dp"
                         android:background="#80FFFFFF"
                         android:elevation="2dp"
-                        app:cardCornerRadius="10dp">
+                        app:cardCornerRadius="15dp">
 
                         <androidx.appcompat.widget.LinearLayoutCompat
                             android:layout_width="wrap_content"
                             android:layout_height="match_parent"
-                            android:layout_gravity="left"
-                            android:layout_marginHorizontal="20dp"
-                            android:layout_marginVertical="5dp"
-                            android:orientation="horizontal">
-
-                            <androidx.cardview.widget.CardView
-                                android:layout_width="40dp"
-                                android:layout_height="40dp"
-                                android:layout_gravity="center"
-                                android:background="#FFFFFF"
-                                app:cardCornerRadius="15dp">
-
-                                <com.airbnb.lottie.LottieAnimationView
-                                    android:id="@+id/lottie_humidity"
-                                    android:layout_width="match_parent"
-                                    android:layout_height="match_parent"
-                                    android:padding="5dp"
-                                    android:scaleType="fitXY"
-                                    app:lottie_autoPlay="true"
-                                    app:lottie_loop="true" />
-
-                            </androidx.cardview.widget.CardView>
-
-                            <androidx.appcompat.widget.AppCompatTextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_gravity="center"
-                                android:layout_marginStart="15dp"
-                                android:text="میزان رطوبت"
-                                android:textColor="#313341"
-                                android:textSize="18sp" />
-
-
-                        </androidx.appcompat.widget.LinearLayoutCompat>
-
-                        <androidx.appcompat.widget.LinearLayoutCompat
-                            android:layout_width="wrap_content"
-                            android:layout_height="match_parent"
-                            android:layout_gravity="right">
+                            android:layout_gravity="left">
 
                             <androidx.appcompat.widget.AppCompatTextView
                                 android:id="@+id/txt_humidity"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_gravity="center"
-                                android:layout_marginEnd="20dp"
+                                android:layout_marginStart="20dp"
                                 android:gravity="center"
-                                android:textColor="#313341"
+                                android:textColor="@color/purple_200"
                                 android:textSize="15sp" />
 
                         </androidx.appcompat.widget.LinearLayoutCompat>
+
+                        <androidx.appcompat.widget.LinearLayoutCompat
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:layout_gravity="right"
+                            android:layout_marginHorizontal="15dp"
+                            android:layout_marginVertical="5dp"
+                            android:gravity="center"
+                            android:orientation="horizontal">
+
+                            <androidx.appcompat.widget.AppCompatTextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center"
+                                android:layout_marginEnd="10dp"
+                                android:text="میزان رطوبت"
+                                android:textColor="#313341"
+                                android:textSize="18sp" />
+
+                            <com.airbnb.lottie.LottieAnimationView
+                                android:id="@+id/lottie_humidity"
+                                android:layout_width="40dp"
+                                android:layout_height="40dp"
+                                android:padding="5dp"
+                                android:scaleType="fitXY"
+                                app:lottie_autoPlay="true"
+                                app:lottie_loop="true" />
+
+
+                        </androidx.appcompat.widget.LinearLayoutCompat>
+
 
                     </com.google.android.material.card.MaterialCardView>
 
@@ -179,51 +175,46 @@
 
                 <!--             sunrise-->
                 <androidx.appcompat.widget.LinearLayoutCompat
+                    android:id="@+id/ll_sunsrise"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="3dp">
+                    android:layout_marginTop="7dp"
+                    android:visibility="gone"
+                    tools:visibility="visible">
 
                     <com.google.android.material.card.MaterialCardView
                         android:layout_width="match_parent"
                         android:layout_height="60dp"
                         android:background="#80FFFFFF"
                         android:elevation="2dp"
-                        app:cardCornerRadius="10dp">
+                        app:cardCornerRadius="15dp">
 
                         <androidx.appcompat.widget.LinearLayoutCompat
                             android:layout_width="wrap_content"
                             android:layout_height="match_parent"
-                            android:layout_gravity="left"
-                            android:layout_marginHorizontal="20dp"
+                            android:layout_gravity="right"
+                            android:layout_marginHorizontal="15dp"
                             android:layout_marginVertical="5dp"
+                            android:gravity="center"
                             android:orientation="horizontal">
-
-                            <androidx.cardview.widget.CardView
-                                android:layout_width="40dp"
-                                android:layout_height="40dp"
-                                android:layout_gravity="center"
-                                android:background="#FFFFFF"
-                                app:cardCornerRadius="15dp">
-
-                                <com.airbnb.lottie.LottieAnimationView
-                                    android:id="@+id/lottie_sunrise"
-                                    android:layout_width="match_parent"
-                                    android:layout_height="match_parent"
-                                    android:padding="5dp"
-                                    android:scaleType="fitXY"
-                                    app:lottie_autoPlay="true"
-                                    app:lottie_loop="true" />
-
-                            </androidx.cardview.widget.CardView>
 
                             <androidx.appcompat.widget.AppCompatTextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_gravity="center"
-                                android:layout_marginStart="15dp"
+                                android:layout_marginEnd="10dp"
                                 android:text="طلوع خورشید"
                                 android:textColor="#313341"
                                 android:textSize="18sp" />
+
+                            <com.airbnb.lottie.LottieAnimationView
+                                android:id="@+id/lottie_sunrise"
+                                android:layout_width="40dp"
+                                android:layout_height="40dp"
+                                android:padding="5dp"
+                                android:scaleType="fitXY"
+                                app:lottie_autoPlay="true"
+                                app:lottie_loop="true" />
 
 
                         </androidx.appcompat.widget.LinearLayoutCompat>
@@ -231,16 +222,16 @@
                         <androidx.appcompat.widget.LinearLayoutCompat
                             android:layout_width="wrap_content"
                             android:layout_height="match_parent"
-                            android:layout_gravity="right">
+                            android:layout_gravity="left">
 
                             <androidx.appcompat.widget.AppCompatTextView
                                 android:id="@+id/txt_sunrise"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_gravity="center"
-                                android:layout_marginEnd="20dp"
+                                android:layout_marginStart="20dp"
                                 android:gravity="center"
-                                android:textColor="#313341"
+                                android:textColor="@color/purple_200"
                                 android:textSize="15sp" />
 
                         </androidx.appcompat.widget.LinearLayoutCompat>
@@ -252,53 +243,46 @@
 
                 <!--             sunset-->
                 <androidx.appcompat.widget.LinearLayoutCompat
+                    android:id="@+id/ll_sunset"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="3dp">
+                    android:layout_marginTop="7dp"
+                    android:visibility="gone"
+                    tools:visibility="visible">
 
                     <com.google.android.material.card.MaterialCardView
                         android:layout_width="match_parent"
                         android:layout_height="60dp"
                         android:background="#80FFFFFF"
                         android:elevation="2dp"
-                        app:cardCornerRadius="10dp">
+                        app:cardCornerRadius="15dp">
 
                         <androidx.appcompat.widget.LinearLayoutCompat
                             android:layout_width="wrap_content"
                             android:layout_height="match_parent"
-                            android:layout_gravity="left"
-                            android:layout_marginHorizontal="20dp"
+                            android:layout_gravity="right"
+                            android:layout_marginHorizontal="15dp"
+                            android:gravity="center"
                             android:layout_marginVertical="5dp"
                             android:orientation="horizontal">
-
-                            <androidx.cardview.widget.CardView
-                                android:layout_width="40dp"
-                                android:layout_height="40dp"
-                                android:layout_gravity="center"
-                                android:background="#FFFFFF"
-                                app:cardCornerRadius="15dp">
-
-
-                                <com.airbnb.lottie.LottieAnimationView
-                                    android:id="@+id/lottie_sunset"
-                                    android:layout_width="match_parent"
-                                    android:layout_height="match_parent"
-                                    android:padding="5dp"
-                                    android:scaleType="fitXY"
-                                    app:lottie_autoPlay="true"
-                                    app:lottie_loop="true" />
-
-
-                            </androidx.cardview.widget.CardView>
 
                             <androidx.appcompat.widget.AppCompatTextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_gravity="center"
-                                android:layout_marginStart="15dp"
+                                android:layout_marginEnd="10dp"
                                 android:text="غروب خورشید"
                                 android:textColor="#313341"
                                 android:textSize="18sp" />
+
+                            <com.airbnb.lottie.LottieAnimationView
+                                android:id="@+id/lottie_sunset"
+                                android:layout_width="40dp"
+                                android:layout_height="40dp"
+                                android:padding="5dp"
+                                android:scaleType="fitXY"
+                                app:lottie_autoPlay="true"
+                                app:lottie_loop="true" />
 
 
                         </androidx.appcompat.widget.LinearLayoutCompat>
@@ -306,16 +290,16 @@
                         <androidx.appcompat.widget.LinearLayoutCompat
                             android:layout_width="wrap_content"
                             android:layout_height="match_parent"
-                            android:layout_gravity="right">
+                            android:layout_gravity="left">
 
                             <androidx.appcompat.widget.AppCompatTextView
                                 android:id="@+id/txt_sunset"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_gravity="center"
-                                android:layout_marginEnd="20dp"
+                                android:layout_marginStart="20dp"
                                 android:gravity="center"
-                                android:textColor="#313341"
+                                android:textColor="@color/purple_200"
                                 android:textSize="15sp" />
 
                         </androidx.appcompat.widget.LinearLayoutCompat>
@@ -336,12 +320,13 @@
                 android:text="۷ روز آینده"
                 android:textColor="#D6996B"
                 android:textSize="20sp"
-                android:textStyle="bold" />
+                android:textStyle="bold"
+                android:visibility="gone" />
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/rv_weather"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_height="wrap_content"
                 android:clipToPadding="false"
                 android:orientation="horizontal"
                 android:paddingVertical="10dp"

@@ -68,7 +68,7 @@
 
                     <com.airbnb.lottie.LottieAnimationView
                         android:id="@+id/animation_weather"
-                        android:layout_width="wrap_content"
+                        android:layout_width="match_parent"
                         android:layout_height="150dp"
                         android:layout_weight="1.5"
                         app:lottie_autoPlay="true"
@@ -76,108 +76,35 @@
                         app:lottie_speed="1.5" />
 
                     <androidx.appcompat.widget.LinearLayoutCompat
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
                         android:layout_gravity="center"
                         android:layout_weight="1.5"
+                        android:gravity="center"
                         android:orientation="vertical">
 
 
                         <androidx.appcompat.widget.AppCompatTextView
                             android:id="@+id/txt_temp"
-                            android:layout_width="match_parent"
+                            android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_gravity="center"
                             android:textColor="#313341"
                             android:textSize="35sp"
                             android:textStyle="bold" />
 
                         <androidx.appcompat.widget.AppCompatTextView
                             android:id="@+id/txt_degree_status"
-                            android:layout_width="match_parent"
+                            android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_gravity="center"
                             android:textColor="#313341"
-                            android:textSize="20sp"
-                            android:textStyle="bold" />
+                            android:textSize="20sp" />
 
                     </androidx.appcompat.widget.LinearLayoutCompat>
 
 
                 </androidx.appcompat.widget.LinearLayoutCompat>
 
-
-                <androidx.appcompat.widget.LinearLayoutCompat
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
-
-                    <com.google.android.material.card.MaterialCardView
-                        android:layout_width="match_parent"
-                        android:layout_height="60dp"
-                        android:background="#80FFFFFF"
-                        android:elevation="2dp"
-                        app:cardCornerRadius="10dp">
-
-                        <androidx.appcompat.widget.LinearLayoutCompat
-                            android:layout_width="wrap_content"
-                            android:layout_height="match_parent"
-                            android:layout_gravity="left"
-                            android:layout_marginHorizontal="20dp"
-                            android:layout_marginVertical="5dp"
-                            android:orientation="horizontal">
-
-                            <androidx.cardview.widget.CardView
-                                android:layout_width="40dp"
-                                android:layout_height="40dp"
-                                android:layout_gravity="center"
-                                android:background="#FFFFFF"
-                                app:cardCornerRadius="15dp">
-
-                                <com.airbnb.lottie.LottieAnimationView
-                                    android:id="@+id/lottie_pressure"
-                                    android:layout_width="match_parent"
-                                    android:layout_height="match_parent"
-                                    android:padding="5dp"
-                                    android:scaleType="fitXY"
-                                    app:lottie_autoPlay="true"
-                                    app:lottie_loop="true" />
-
-                            </androidx.cardview.widget.CardView>
-
-                            <androidx.appcompat.widget.AppCompatTextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_gravity="center"
-                                android:layout_marginStart="15dp"
-                                android:text="فشار هوا"
-                                android:textColor="#313341"
-                                android:textSize="18sp" />
-
-
-                        </androidx.appcompat.widget.LinearLayoutCompat>
-
-                        <androidx.appcompat.widget.LinearLayoutCompat
-                            android:layout_width="wrap_content"
-                            android:layout_height="match_parent"
-                            android:layout_gravity="right">
-
-                            <androidx.appcompat.widget.AppCompatTextView
-                                android:id="@+id/txt_pressure"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_gravity="center"
-                                android:layout_marginEnd="20dp"
-                                android:gravity="center"
-                                android:textColor="#313341"
-                                android:textSize="15sp" />
-
-                        </androidx.appcompat.widget.LinearLayoutCompat>
-
-                    </com.google.android.material.card.MaterialCardView>
-
-
-                </androidx.appcompat.widget.LinearLayoutCompat>
-
+<!--                humidity-->
                 <androidx.appcompat.widget.LinearLayoutCompat
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -323,7 +250,6 @@
 
                 </androidx.appcompat.widget.LinearLayoutCompat>
 
-
                 <!--             sunset-->
                 <androidx.appcompat.widget.LinearLayoutCompat
                     android:layout_width="match_parent"
@@ -399,9 +325,7 @@
 
                 </androidx.appcompat.widget.LinearLayoutCompat>
 
-
             </androidx.appcompat.widget.LinearLayoutCompat>
-
 
             <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/txt_forecast"
@@ -420,10 +344,10 @@
                 android:layout_height="match_parent"
                 android:clipToPadding="false"
                 android:orientation="horizontal"
-                android:paddingTop="4dp"
+                android:paddingVertical="10dp"
                 android:visibility="visible"
                 app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-                tools:listitem="@layout/weather_list_item"
+                tools:listitem="@layout/forecast_item"
                 tools:visibility="visible" />
 
         </androidx.appcompat.widget.LinearLayoutCompat>
@@ -433,6 +357,6 @@
     <include
         android:id="@+id/loading"
         layout="@layout/loading"
-        android:visibility="gone" />
+        android:visibility="visible" />
 
 </RelativeLayout>

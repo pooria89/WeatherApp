@@ -8,7 +8,6 @@ import com.app.data.model.forecast.ForecastWeather
 import com.app.data.model.get_place_id.response.PlaceIdResult
 import com.app.data.repository.WeatherRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.launch
@@ -53,6 +52,9 @@ class CurrentWeatherViewModel @Inject constructor(
         }
     }
 
+    /**
+     * _get forecast weather
+     */
     private val _getForecastWeather =
         MutableStateFlow<Resource<ForecastWeather>>(Resource.Initialize)
     val getForecastWeather: Flow<Resource<ForecastWeather>> = _getForecastWeather

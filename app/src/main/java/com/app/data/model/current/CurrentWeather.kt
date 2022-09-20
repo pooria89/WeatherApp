@@ -1,8 +1,6 @@
 package com.app.data.model.current
 
 
-import com.google.gson.annotations.SerializedName
-
 data class CurrentWeather(
     val base: String?,
     val clouds: Clouds?,
@@ -21,9 +19,9 @@ data class CurrentWeather(
 )
 
 object WeatherType {
-    const val WEATHER_SUNNY ="Sunny"
-    const val WEATHER_CLOUDY ="Clouds"
-    const val WEATHER_RAINY ="Rainy"
-    const val WEATHER_CLEAR ="Clear"
-    const val WEATHER_SNOW ="Snow"
+    const val WEATHER_SUNNY = "Sunny"
+    const val WEATHER_CLOUDY = "Clouds"
+    const val WEATHER_RAINY = "Rainy"
+    const val WEATHER_CLEAR = "Clear"
+    const val WEATHER_SNOW = "Snow"
 }

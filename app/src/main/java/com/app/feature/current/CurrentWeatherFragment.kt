@@ -9,6 +9,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
@@ -23,7 +24,6 @@ import com.app.weather.databinding.FragmentCurrentWeatherBinding
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationServices
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.flow.collect
 
 @AndroidEntryPoint
 class CurrentWeatherFragment : Fragment() {
@@ -32,6 +32,7 @@ class CurrentWeatherFragment : Fragment() {
     private val viewModel: CurrentWeatherViewModel by viewModels()
     private lateinit var binding: FragmentCurrentWeatherBinding
 
+    private lateinit var adapter: ForecastAdapter
     private lateinit var mFusedLocationClient: FusedLocationProviderClient
     private var latitude: String = ""
     private var longitude: String = ""
@@ -40,9 +41,9 @@ class CurrentWeatherFragment : Fragment() {
         ActivityResultContracts.RequestMultiplePermissions()
     ) { permissions ->
         when {
-            permissions.getOrDefault(Manifest.permission.ACCESS_FINE_LOCATION, false) -> {}
+            permissions.getOrDefault(Manifest.permission.ACCESS_FINE_LOCATION, false)   -> {}
             permissions.getOrDefault(Manifest.permission.ACCESS_COARSE_LOCATION, false) -> {}
-            else -> {}
+            else                                                                        -> {}
         }
     }
 
@@ -67,101 +68,48 @@ class CurrentWeatherFragment : Fragment() {
     private fun setupView() = binding.apply {
         lottieSunrise.setAnimation("sunrise.json")
         lottieSunset.setAnimation("sunset.json")
-        lottiePressure.setAnimation("pressure.json")
         lottieHumidity.setAnimation("humidity.json")
+        setupRecyclerView(rvWeather)
     }
 
-    private fun observe() {
-
-        lifecycleScope.launchWhenCreated {
-            viewModel.getPlaceId.collect {
-                when (it) {
-                    is Resource.Loading -> hideProgress()
-                    is Resource.Success -> {
-                        hideProgress()
-                        Log.d(TAG, "observe: $it")
-
-                        it.data.dal?.getSunV3LocationSearchUrlConfig?.forEach { (key, value) ->
-                            Log.d(TAG, "$key = $value")
-                            viewModel.getCurrentWeather(
-                                latitude = value.data?.location?.latitude?.firstOrNull().toString(),
-                                longitude = value.data?.location?.longitude?.firstOrNull()
-                                    .toString()
-                            )
-                            setupLocationUI(value)
-                        }
-                    }
-                    is Resource.Failure -> {
-                        hideProgress()
-                    }
-                }
+    private fun getCurrentLocation() {
+        if (requireContext().isGpsEnabled()) {
+            mFusedLocationClient.lastLocation.addOnSuccessListener { location ->
+                Log.e("gpssss", "Latitude\n ${location.latitude}")
+                Log.e("gpssss", "Longitude\n${location.longitude}")
+                latitude = location.latitude.toString()
+                longitude = location.longitude.toString()
+                viewModel.getPlaceId(
+                    geo = "${location.latitude}" + "," + "${location.longitude}"
+                )
             }
+        } else {
+            val intent = Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS)
+            startActivity(intent)
         }
-
-        lifecycleScope.launchWhenCreated {
-            viewModel.getCurrentWeather.collect {
-                when (it) {
-                    is Resource.Loading -> hideProgress()
-                    is Resource.Success -> {
-                        hideProgress()
-                        Log.d(TAG, "observe: $it")
-                        viewModel.getForecastWeather(
-                            latitude = latitude,
-                            longitude = longitude
-                        )
-                        setupCurrentWeatherUI(it.data)
-                    }
-                    is Resource.Failure -> {
-                        hideProgress()
-                    }
-                }
-            }
-        }
-
-
-        lifecycleScope.launchWhenCreated {
-            viewModel.getForecastWeather.collect {
-                when (it) {
-                    is Resource.Loading -> hideProgress()
-                    is Resource.Success -> {
-                        hideProgress()
-                        Log.d(TAG, "observe: $it")
-                        viewModel.getForecastWeather(
-                            latitude = latitude,
-                            longitude = longitude
-                        )
-                    }
-                    is Resource.Failure -> {
-                        hideProgress()
-                    }
-                }
-            }
-
-        }
-
     }
 
     private fun setupCurrentWeatherUI(currentWeather: CurrentWeather) = binding.apply {
         txtDegreeStatus.text = currentWeather.weather?.firstOrNull()?.description
         txtTemp.text = currentWeather.main?.temp.toString().showTemp()
-        txtPressure.text = currentWeather.main?.pressure.toString().showAt()
         txtHumidity.text = currentWeather.main?.humidity.toString().showPercentage()
-        txtSunrise.text = currentWeather.sys?.sunrise.toString()
-        txtSunset.text = currentWeather.sys?.sunset.toString()
+        txtSunrise.text = currentWeather.sys?.sunrise?.toLong()?.toTimestamp()?.toTime()
+        txtSunset.text = currentWeather.sys?.sunset?.toLong()?.toTimestamp()?.toTime()
+
         when (currentWeather.weather?.firstOrNull()?.main) {
-            WeatherType.WEATHER_SUNNY -> {
+            WeatherType.WEATHER_SUNNY  -> {
                 animationWeather.setAnimation("weather_sunny.json")
             }
             WeatherType.WEATHER_CLOUDY -> {
                 animationWeather.setAnimation("weather_cloudy.json")
             }
-            WeatherType.WEATHER_RAINY -> {
+            WeatherType.WEATHER_RAINY  -> {
                 animationWeather.setAnimation("weather_rainy.json")
             }
-            WeatherType.WEATHER_CLEAR -> {
+            WeatherType.WEATHER_CLEAR  -> {
                 animationWeather.setAnimation("weather_clear.json")
             }
-            WeatherType.WEATHER_SNOW -> {
+            WeatherType.WEATHER_SNOW   -> {
                 animationWeather.setAnimation("weather_snow.json")
             }
         }
@@ -186,25 +134,73 @@ class CurrentWeatherFragment : Fragment() {
 
     }
 
-    private fun requestPermission() {
-        locationPermissionRequest.launch(arrayOf(Manifest.permission.ACCESS_COARSE_LOCATION))
+    private fun observe() {
+
+        lifecycleScope.launchWhenCreated {
+            viewModel.getPlaceId.collect {
+                when (it) {
+                    is Resource.Success -> {
+                        Log.d(TAG, "observe: $it")
+
+                        it.data.dal?.getSunV3LocationSearchUrlConfig?.forEach { (key, value) ->
+                            Log.d(TAG, "$key = $value")
+                            viewModel.getCurrentWeather(
+                                latitude = value.data?.location?.latitude?.firstOrNull().toString(),
+                                longitude = value.data?.location?.longitude?.firstOrNull()
+                                    .toString()
+                            )
+                            setupLocationUI(value)
+                        }
+                    }
+                    is Resource.Failure -> {
+                        Toast.makeText(requireContext(), "مشکلی رخ داده است", Toast.LENGTH_SHORT).show()
+                        hideProgress()
+                    }
+                }
+            }
+        }
+
+        lifecycleScope.launchWhenCreated {
+            viewModel.getCurrentWeather.collect {
+                when (it) {
+                    is Resource.Success -> {
+                        Log.d(TAG, "observe: $it")
+                        setupCurrentWeatherUI(it.data)
+                        viewModel.getForecastWeather(
+                            latitude = latitude,
+                            longitude = longitude
+                        )
+                    }
+                    is Resource.Failure -> {
+                        Toast.makeText(requireContext(), "مشکلی رخ داده است", Toast.LENGTH_SHORT).show()
+                        hideProgress()
+                    }
+                }
+            }
+        }
+
+        lifecycleScope.launchWhenCreated {
+            viewModel.getForecastWeather.collect {
+                when (it) {
+                    is Resource.Loading -> hideProgress()
+                    is Resource.Success -> {
+                        adapter.submitList(it.data.list)
+                        Log.d(TAG, "observe: $it")
+                        hideProgress()
+                    }
+                    is Resource.Failure -> {
+                        Toast.makeText(requireContext(), "مشکلی رخ داده است", Toast.LENGTH_SHORT).show()
+                        hideProgress()
+                    }
+                }
+            }
+
+        }
+
     }
 
-    private fun getCurrentLocation() {
-        if (requireContext().isGpsEnabled()) {
-            mFusedLocationClient.lastLocation.addOnSuccessListener { location ->
-                Log.e("gpssss", "Latitude\n ${location.latitude}")
-                Log.e("gpssss", "Longitude\n${location.longitude}")
-                latitude = location.latitude.toString()
-                longitude = location.longitude.toString()
-                viewModel.getPlaceId(
-                    geo = "${location.latitude}" + "," + "${location.longitude}"
-                )
-            }
-        } else {
-            val intent = Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS)
-            startActivity(intent)
-        }
+    private fun requestPermission() {
+        locationPermissionRequest.launch(arrayOf(Manifest.permission.ACCESS_COARSE_LOCATION))
     }
 
     override fun onResume() {
@@ -213,8 +209,8 @@ class CurrentWeatherFragment : Fragment() {
     }
 
     private fun setupRecyclerView(recyclerView: RecyclerView) {
-//        adapter = ForecastWeatherAdapter { }
-//        recyclerView.adapter = adapter
+        adapter = ForecastAdapter { }
+        recyclerView.adapter = adapter
     }
 
     private fun showProgress() {

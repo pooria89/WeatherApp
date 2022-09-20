@@ -38,10 +38,16 @@ class WeatherRepository @Inject constructor(
         lon = longitude
     )
 
+    /**
+     * Get forecast weather
+     *
+     * @param latitude
+     * @param longitude
+     */
     suspend fun getForecastWeather(
         latitude: String, longitude: String
     ) = apiService.forecastWeather(
-        latitude = latitude,
-        longitude = longitude
+        lat = latitude,
+        lon = longitude
     )
 }

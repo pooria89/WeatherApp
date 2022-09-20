@@ -1,120 +1,58 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:layout_width="wrap_content"
+    android:layout_height="180dp"
+    android:padding="3dp"
+    android:layout_margin="7dp">
 
-    <com.google.android.material.card.MaterialCardView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginRight="7dp"
-        android:layout_marginLeft="7dp"
-        android:layout_marginTop="5dp"
-        android:layout_marginBottom="0dp"
-        android:orientation="vertical"
-        app:cardCornerRadius="10dp"
-        app:strokeColor="#d6d6d6"
-        app:strokeWidth="1dp">
+    <androidx.cardview.widget.CardView
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:background="#80FFFFFF"
+        android:elevation="0dp"
+        app:cardCornerRadius="25dp">
 
         <androidx.appcompat.widget.LinearLayoutCompat
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:gravity="center"
-            android:orientation="horizontal"
-            android:padding="10dp">
+            android:layout_gravity="center"
+            android:layout_marginHorizontal="6dp"
+            android:layout_marginVertical="10dp"
+            android:orientation="vertical">
+
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/txt_time"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:textColor="#313341"
+                android:textSize="12sp" />
 
 
             <com.airbnb.lottie.LottieAnimationView
-                android:id="@+id/img_item_list"
-                android:layout_width="80dp"
-                android:layout_height="80dp"
-                android:layout_marginEnd="10dp"
-                android:layout_weight=".2"
+                android:id="@+id/animation_weather"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:layout_margin="5dp"
+                android:layout_weight="1.75"
                 app:lottie_autoPlay="true"
                 app:lottie_loop="true"
                 app:lottie_speed="1.5" />
 
-
-            <androidx.appcompat.widget.LinearLayoutCompat
-                android:layout_width="0dp"
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/txt_degree"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:layout_weight="3"
                 android:gravity="center"
-                android:orientation="vertical">
-
-                <androidx.appcompat.widget.AppCompatTextView
-                    android:id="@+id/txt_temperature"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="3dp"
-                    android:gravity="center"
-                    android:text="25 °C"
-                    android:textColor="@color/black"
-                    android:textSize="23sp"
-                    android:textStyle="bold" />
-
-                <androidx.appcompat.widget.AppCompatTextView
-                    android:id="@+id/txtDescription"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="4dp"
-                    android:gravity="center"
-                    android:text="Clouds"
-                    android:textColor="@color/black"
-                    android:textSize="14sp" />
-
-                <androidx.appcompat.widget.AppCompatTextView
-                    android:id="@+id/txt_time"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:gravity="center"
-                    android:maxLines="1"
-                    android:text="Sunday , july 21"
-                    android:textSize="14sp" />
-
-            </androidx.appcompat.widget.LinearLayoutCompat>
-
-            <View
-                android:layout_width="1dp"
-                android:layout_height="match_parent"
-                android:layout_marginTop="10dp"
-                android:layout_margin="10dp"
-                android:layout_marginBottom="10dp"
-                android:background="#d6d6d6" />
-
-            <androidx.appcompat.widget.LinearLayoutCompat
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:layout_weight="1.5"
-                android:gravity="center"
-                android:orientation="vertical">
-
-
-                <androidx.appcompat.widget.AppCompatTextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:gravity="center"
-                    android:text=" وزش باد"
-                    android:textColor="@color/black"
-                    android:textSize="14sp" />
-
-                <androidx.appcompat.widget.AppCompatTextView
-                    android:id="@+id/txt_wind"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="5dp"
-                    android:gravity="center"
-                    android:text="27 km/h"
-                    android:textColor="@color/black"
-                    android:textSize="23sp"
-                    android:textStyle="bold" />
-
-            </androidx.appcompat.widget.LinearLayoutCompat>
+                android:textColor="#313341"
+                android:textStyle="bold"
+                android:textSize="12sp" />
 
         </androidx.appcompat.widget.LinearLayoutCompat>
 
-    </com.google.android.material.card.MaterialCardView>
+    </androidx.cardview.widget.CardView>
 
-</FrameLayout>
+</RelativeLayout>

@@ -43,11 +43,21 @@ interface ApiService {
     ): CurrentWeather
 
 
+    /**
+     * Forecast weather
+     *
+     * @param latitude
+     * @param longitude
+     * @param hourly
+     * @return
+     */
     @Headers("Accept: application/json")
-    @GET("${Constants.BASE_URL2}forecast")
+    @GET("${Constants.BASE_URL1}forecast")
     suspend fun forecastWeather(
-        @Query("latitude") latitude: String,
-        @Query("longitude") longitude: String,
-        @Query("hourly") hourly: String = "temperature_2m,relativehumidity_2m,windspeed_10m",
+        @Query("appid") appid: String = Constants.API_KEY,
+        @Query("lat") lat: String,
+        @Query("lon") lon: String,
+        @Query("lang") lang: String = "fa",
+        @Query("units") units: String = "metric",
     ): ForecastWeather
 }

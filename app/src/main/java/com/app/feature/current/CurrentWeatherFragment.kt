@@ -9,7 +9,6 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
@@ -24,6 +23,7 @@ import com.app.weather.databinding.FragmentCurrentWeatherBinding
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationServices
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.DelicateCoroutinesApi
 
 @AndroidEntryPoint
 class CurrentWeatherFragment : Fragment() {
@@ -62,7 +62,17 @@ class CurrentWeatherFragment : Fragment() {
         setupView()
         observe()
         requestPermission()
+        checkGps()
         getCurrentLocation()
+    }
+
+    private fun checkGps() {
+        if (requireContext().isGpsEnabled()) {
+            getCurrentLocation()
+        } else {
+            val intent = Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS)
+            startActivity(intent)
+        }
     }
 
     private fun setupView() = binding.apply {
@@ -70,22 +80,50 @@ class CurrentWeatherFragment : Fragment() {
         lottieSunset.setAnimation("sunset.json")
         lottieHumidity.setAnimation("humidity.json")
         setupRecyclerView(rvWeather)
+        refreshLayout.setOnRefreshListener {
+            refreshLayout.isRefreshing = false
+            checkGps()
+        }
     }
 
+    @OptIn(DelicateCoroutinesApi::class)
     private fun getCurrentLocation() {
-        if (requireContext().isGpsEnabled()) {
-            mFusedLocationClient.lastLocation.addOnSuccessListener { location ->
-                Log.e("gpssss", "Latitude\n ${location.latitude}")
-                Log.e("gpssss", "Longitude\n${location.longitude}")
+        mFusedLocationClient.lastLocation.addOnSuccessListener { location ->
+            Log.e("gpssss", "Latitude\n ${location?.latitude}")
+            Log.e("gpssss", "Longitude\n${location?.longitude}")
+
+            var defLatitude = ""
+            var defLongitude = ""
+
+            location?.let { location ->
                 latitude = location.latitude.toString()
                 longitude = location.longitude.toString()
+
+                viewModel.saveLastGeo(latitude = latitude, longitude = longitude)
+                viewModel.getPlaceId(geo = "${location.latitude}" + "," + "${location.longitude}")
+
+            } ?: run {
+
+                viewModel.getLastsLatitude().observe(viewLifecycleOwner) {
+                    defLatitude = if (it.isNullOrBlank()) {
+                        "35.7113093"
+                    }else{
+                        it.toString()
+                    }
+                }
+
+                viewModel.getLastsLongitude().observe(viewLifecycleOwner) {
+                    defLongitude = if (it.isNullOrBlank()) {
+                        "51.4072268"
+                    }else{
+                        it.toString()
+                    }
+                }
+
                 viewModel.getPlaceId(
-                    geo = "${location.latitude}" + "," + "${location.longitude}"
+                    geo = "$defLatitude,$defLongitude"
                 )
             }
-        } else {
-            val intent = Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS)
-            startActivity(intent)
         }
     }
 
@@ -153,8 +191,6 @@ class CurrentWeatherFragment : Fragment() {
                         }
                     }
                     is Resource.Failure -> {
-                        Toast.makeText(requireContext(), "مشکلی رخ داده است", Toast.LENGTH_SHORT)
-                            .show()
                         hideProgress()
                     }
                 }
@@ -167,14 +203,23 @@ class CurrentWeatherFragment : Fragment() {
                     is Resource.Success -> {
                         Log.d(TAG, "observe: $it")
                         setupCurrentWeatherUI(it.data)
-                        viewModel.getForecastWeather(
-                            latitude = latitude,
-                            longitude = longitude
-                        )
+
+                        if (latitude.isNotBlank() && longitude.isNotBlank()) {
+                            viewModel.getForecastWeather(
+                                latitude = latitude,
+                                longitude = longitude
+                            )
+                        } else {
+                            it.data.coord.let { coord ->
+                                viewModel.getForecastWeather(
+                                    latitude = coord?.lat.toString(),
+                                    longitude = coord?.lon.toString()
+                                )
+                            }
+                        }
+
                     }
                     is Resource.Failure -> {
-                        Toast.makeText(requireContext(), "مشکلی رخ داده است", Toast.LENGTH_SHORT)
-                            .show()
                         hideProgress()
                     }
                 }
@@ -197,8 +242,6 @@ class CurrentWeatherFragment : Fragment() {
                         hideProgress()
                     }
                     is Resource.Failure -> {
-                        Toast.makeText(requireContext(), "مشکلی رخ داده است", Toast.LENGTH_SHORT)
-                            .show()
                         hideProgress()
                     }
                 }
@@ -231,3 +274,4 @@ class CurrentWeatherFragment : Fragment() {
     }
 
 }
+

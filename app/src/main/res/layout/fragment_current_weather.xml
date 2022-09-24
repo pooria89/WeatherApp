@@ -6,12 +6,20 @@
     android:layout_height="match_parent"
     android:background="@drawable/gradient_background"
     android:gravity="center"
-    android:orientation="vertical"
     tools:context="com.app.feature.current.CurrentWeatherFragment">
+
+    <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+        android:id="@+id/refreshLayout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior">
+
+
 
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent">
+
 
         <androidx.appcompat.widget.LinearLayoutCompat
             android:layout_width="match_parent"
@@ -262,8 +270,8 @@
                             android:layout_height="match_parent"
                             android:layout_gravity="right"
                             android:layout_marginHorizontal="15dp"
-                            android:gravity="center"
                             android:layout_marginVertical="5dp"
+                            android:gravity="center"
                             android:orientation="horizontal">
 
                             <androidx.appcompat.widget.AppCompatTextView
@@ -317,8 +325,8 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="right"
                 android:layout_marginEnd="20dp"
-                android:text="۷ روز آینده"
-                android:textColor="#D6996B"
+                android:text="6 روز آینده"
+                android:textColor="#ffffff"
                 android:textSize="20sp"
                 android:textStyle="bold"
                 android:visibility="gone" />
@@ -328,8 +336,9 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:clipToPadding="false"
+                android:layoutDirection="rtl"
                 android:orientation="horizontal"
-                android:paddingVertical="10dp"
+                android:textDirection="rtl"
                 android:visibility="visible"
                 app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                 tools:listitem="@layout/forecast_item"
@@ -337,7 +346,10 @@
 
         </androidx.appcompat.widget.LinearLayoutCompat>
 
+
     </ScrollView>
+
+    </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 
     <include
         android:id="@+id/loading"

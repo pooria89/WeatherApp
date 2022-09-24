@@ -6,6 +6,8 @@ import androidx.recyclerview.widget.DiffUtil
 import com.app.common.BaseRecyclerViewAdapter
 import com.app.data.model.current.WeatherType
 import com.app.data.model.forecast.ListForecast
+import com.app.utils.ext.toPersianDate
+import com.app.utils.ext.toPersianDateTime
 import com.app.utils.ext.toTime
 import com.app.utils.ext.toTimestamp
 import com.app.weather.databinding.ForecastItemBinding
@@ -34,7 +36,9 @@ class ForecastAdapter(
 //                tvUserUsername.text = item.username
 //                tvUserFullName.text = item.full_name
 //                ivUserAvatar.load(item.profile_pic_url)
-                txtTime.text = item.dtTxt?.toTime()
+                txtDate.text = item.dtTxt?.toPersianDate()
+                txtTime.text = item.dtTxt?.toPersianDateTime()?.substringAfter("ساعت")
+
                 txtDegree.text = item.main?.temp.toString()
                 when (item.weather?.firstOrNull()?.main) {
                     WeatherType.WEATHER_SUNNY  -> {

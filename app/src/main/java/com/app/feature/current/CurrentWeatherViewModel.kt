@@ -1,8 +1,10 @@
 package com.app.feature.current
 
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.asLiveData
 import androidx.lifecycle.viewModelScope
 import com.app.common.Resource
+import com.app.data.db.DataStoreManager
 import com.app.data.model.current.CurrentWeather
 import com.app.data.model.forecast.ForecastWeather
 import com.app.data.model.get_place_id.response.PlaceIdResult
@@ -15,9 +17,18 @@ import javax.inject.Inject
 
 @HiltViewModel
 class CurrentWeatherViewModel @Inject constructor(
-    private val repository: WeatherRepository
+    private val repository: WeatherRepository,
+    private val dataStoreManager: DataStoreManager
 ) : ViewModel() {
 
+
+    fun saveLastGeo(latitude: String, longitude: String) = viewModelScope.launch {
+        dataStoreManager.saveLatitude(latitude = latitude)
+        dataStoreManager.saveLongitude(longitude = longitude)
+    }
+
+    fun getLastsLatitude() = dataStoreManager.getLatitude().asLiveData()
+    fun getLastsLongitude() = dataStoreManager.getLongitue().asLiveData()
 
     /**
      * _get place id

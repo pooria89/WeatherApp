@@ -2,17 +2,20 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="wrap_content"
-    android:layout_height="250dp"
+    android:layout_height="280dp"
     android:layout_marginEnd="4dp"
-    android:layout_marginBottom="7dp">
+    android:layout_marginBottom="4dp"
+    android:padding="1dp">
 
     <com.google.android.material.card.MaterialCardView
         android:layout_width="wrap_content"
-        android:layout_marginEnd="4dp"
-        android:layout_marginBottom="7dp"
         android:layout_height="match_parent"
+        android:layout_marginHorizontal="10dp"
+        android:layout_marginVertical="30dp"
+        android:layout_marginEnd="4dp"
         android:background="#80FFFFFF"
         android:elevation="0dp"
+        android:padding="4dp"
         app:cardCornerRadius="24dp">
 
         <androidx.appcompat.widget.LinearLayoutCompat
@@ -25,13 +28,22 @@
 
 
             <androidx.appcompat.widget.AppCompatTextView
-                android:id="@+id/txt_time"
+                android:id="@+id/txt_date"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:textColor="#313341"
-                android:textSize="12sp" />
+                android:textSize="13sp"
+                android:textStyle="bold" />
 
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/txt_time"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginTop="2dp"
+                android:textColor="#313341"
+                android:textSize="12sp" />
 
             <com.airbnb.lottie.LottieAnimationView
                 android:id="@+id/animation_weather"
@@ -50,7 +62,7 @@
                 android:layout_gravity="center"
                 android:gravity="center"
                 android:textColor="#313341"
-                android:textSize="12sp"
+                android:textSize="14sp"
                 android:textStyle="bold" />
 
         </androidx.appcompat.widget.LinearLayoutCompat>

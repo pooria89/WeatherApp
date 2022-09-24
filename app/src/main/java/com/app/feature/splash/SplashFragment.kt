@@ -31,10 +31,15 @@ class SplashFragment : Fragment() {
     }
 
     private fun setupView() = binding.apply {
-        animationSplash.setAnimation("loader.json")
+        navigateToMain()
+    }
+
+    private fun navigateToMain() {
+        binding.animationSplash.setAnimation("loader.json")
         Handler().postDelayed(Runnable {
             safeNavigate(R.id.splash_to_currentWeather)
         }, 2000)
     }
 
 }
+

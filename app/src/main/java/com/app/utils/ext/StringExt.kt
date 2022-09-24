@@ -55,3 +55,20 @@ fun String.toTime(hasSecond: Boolean = true): String {
     if (hasSecond) return "${date.hour}:${date.minute}:$second"
     return "${date.hour}:${date.minute}"
 }
+
+fun String.toPersianDateTime(): String {
+    val date = PersianDate(getDate(this))
+    return "${date.dayName()} ${date.shDay} ${date.monthName()}، ساعت ${date.hour}:${date.minute}"
+}
+
+fun String.toPersianDate(): String {
+    val date = PersianDate(getDate(this))
+    return "${date.dayName()} ${date.shDay} ${date.monthName()}"
+}
+
+fun String.toNumericPersianDate(): String {
+    val date = PersianDate(getDate(this))
+    val day = if (date.shDay < 10) "0${date.shDay}" else date.shDay
+    val month = if (date.shMonth < 10) "0${date.shMonth}" else date.shMonth
+    return "${date.shYear}/$month/$day"
+}

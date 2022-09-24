@@ -23,7 +23,6 @@ import com.app.weather.databinding.FragmentCurrentWeatherBinding
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationServices
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.DelicateCoroutinesApi
 
 @AndroidEntryPoint
 class CurrentWeatherFragment : Fragment() {
@@ -86,7 +85,6 @@ class CurrentWeatherFragment : Fragment() {
         }
     }
 
-    @OptIn(DelicateCoroutinesApi::class)
     private fun getCurrentLocation() {
         mFusedLocationClient.lastLocation.addOnSuccessListener { location ->
             Log.e("gpssss", "Latitude\n ${location?.latitude}")
@@ -104,25 +102,28 @@ class CurrentWeatherFragment : Fragment() {
 
             } ?: run {
 
-                viewModel.getLastsLatitude().observe(viewLifecycleOwner) {
-                    defLatitude = if (it.isNullOrBlank()) {
-                        "35.7113093"
-                    }else{
-                        it.toString()
+                    viewModel.getLastsLatitude().observe(viewLifecycleOwner) {
+                        defLatitude = if (it.isNullOrBlank()) {
+                            "35.7113093"
+                        } else {
+                            it.toString()
+                        }
                     }
-                }
 
-                viewModel.getLastsLongitude().observe(viewLifecycleOwner) {
-                    defLongitude = if (it.isNullOrBlank()) {
-                        "51.4072268"
-                    }else{
-                        it.toString()
+                    viewModel.getLastsLongitude().observe(viewLifecycleOwner) {
+                        defLongitude = if (it.isNullOrBlank()) {
+                            "51.4072268"
+                        } else {
+                            it.toString()
+
+                        }
                     }
-                }
+
 
                 viewModel.getPlaceId(
                     geo = "$defLatitude,$defLongitude"
                 )
+
             }
         }
     }

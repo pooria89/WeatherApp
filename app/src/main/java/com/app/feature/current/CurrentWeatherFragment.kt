@@ -126,10 +126,16 @@ class CurrentWeatherFragment : Fragment() {
                     }
                 }
 
+                if (defLatitude.isNullOrBlank() && defLongitude.isNullOrBlank()) {
+                    viewModel.getPlaceId(
+                        geo = "35.7113093,51.4072268"
+                    )
+                }else{
+                    viewModel.getPlaceId(
+                        geo = "$defLatitude,$defLongitude"
+                    )
+                }
 
-                viewModel.getPlaceId(
-                    geo = "$defLatitude,$defLongitude"
-                )
 
             }
         }

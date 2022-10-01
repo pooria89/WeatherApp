@@ -29,14 +29,25 @@
                 android:layout_margin="20dp"
                 android:orientation="vertical">
 
-                <androidx.appcompat.widget.AppCompatTextView
-                    android:id="@+id/txt_country"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:textColor="#313341"
-                    android:textSize="35sp"
-                    android:textStyle="bold" />
+         <androidx.appcompat.widget.LinearLayoutCompat
+             android:layout_width="match_parent"
+             android:layout_height="wrap_content"
+             android:layout_gravity="center"
+             android:gravity="center"
+             android:orientation="horizontal">
+
+
+             <androidx.appcompat.widget.AppCompatTextView
+                 android:id="@+id/txt_country"
+                 android:layout_width="wrap_content"
+                 android:layout_height="wrap_content"
+                 android:layout_gravity="center"
+                 android:textColor="#313341"
+                 android:textSize="35sp"
+                 android:textStyle="bold" />
+
+
+         </androidx.appcompat.widget.LinearLayoutCompat>
 
                 <androidx.appcompat.widget.AppCompatTextView
                     android:id="@+id/txt_city"

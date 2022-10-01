@@ -79,10 +79,12 @@ class CurrentWeatherFragment : Fragment() {
         lottieSunset.setAnimation("sunset.json")
         lottieHumidity.setAnimation("humidity.json")
         setupRecyclerView(rvWeather)
+
         refreshLayout.setOnRefreshListener {
             refreshLayout.isRefreshing = false
             checkGps()
         }
+
     }
 
     private fun getCurrentLocation() {
@@ -102,22 +104,27 @@ class CurrentWeatherFragment : Fragment() {
 
             } ?: run {
 
-                    viewModel.getLastsLatitude().observe(viewLifecycleOwner) {
-                        defLatitude = if (it.isNullOrBlank()) {
-                            "35.7113093"
-                        } else {
-                            it.toString()
-                        }
+                viewModel.getLastsLatitude().observe(viewLifecycleOwner) {
+                    defLatitude = if (it.isNullOrBlank()) {
+                        "35.7113093"
+                    } else {
+                        it.toString()
                     }
-
-                    viewModel.getLastsLongitude().observe(viewLifecycleOwner) {
-                        defLongitude = if (it.isNullOrBlank()) {
-                            "51.4072268"
-                        } else {
-                            it.toString()
-
-                        }
+                    if (it == null) {
+                        defLatitude = "35.7113093"
                     }
+                }
+
+                viewModel.getLastsLongitude().observe(viewLifecycleOwner) {
+                    defLongitude = if (it.isNullOrBlank()) {
+                        "51.4072268"
+                    } else {
+                        it.toString()
+                    }
+                    if (it == null) {
+                        defLongitude = "51.4072268"
+                    }
+                }
 
 
                 viewModel.getPlaceId(
